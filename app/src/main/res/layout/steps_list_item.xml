@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/step_name"
+        tools:text="Pour it in a bowl"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlack"
+        tools:text="Click to see details and "
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <include layout="@layout/item_seperator_line" />
+</LinearLayout>
