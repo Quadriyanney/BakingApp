@@ -1,17 +1,18 @@
 package com.quadriyanney.bakingapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.quadriyanney.bakingapp.R;
-import com.quadriyanney.bakingapp.activities.RecipeDetails;
+import com.quadriyanney.bakingapp.activities.StepDetails;
 import com.quadriyanney.bakingapp.adapters.StepsAdapter;
 import com.quadriyanney.bakingapp.data.StepsInfo;
 
@@ -33,7 +34,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
     String mStepsList, mShortDescription, mDescription, mVideoUrl, mThumbnailUrl;
     JSONArray jsonSteps;
     int counter = 0;
-    RecipeDetails recipeDetails;
+    Button button;
 
     public StepsFragment () {}
 
@@ -48,6 +49,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
         recyclerView = (RecyclerView) view.findViewById(R.id.stepsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(stepsAdapter);
+        button = (Button) view.findViewById(R.id.widgetButton);
 
         return view;
     }
@@ -72,12 +74,12 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
 
     @Override
     public void onStepItemClicked(int clicked) {
-//        recipeDetails.launchDetailActivity(stepsList.get(clicked).getDescription(),
-//                stepsList.get(clicked).getVideoUrl(),
-//                stepsList.get(clicked).getThumbnailUrl());
 
-        Log.d("text", stepsList.get(clicked).getDescription() + stepsList.get(clicked).getVideoUrl()
-        + stepsList.get(clicked).getThumbnailUrl())
+        Intent intent = new Intent(getActivity(), StepDetails.class);
+        intent.putExtra("description", stepsList.get(clicked).getDescription());
+        intent.putExtra("vUrl", stepsList.get(clicked).getVideoUrl());
+        intent.putExtra("tUrl", stepsList.get(clicked).getThumbnailUrl());
+        startActivity(intent);
     }
 
     public void getStepsList(String stepsList){

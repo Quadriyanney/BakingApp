@@ -66,6 +66,8 @@ public class WidgetIntentService extends RemoteViewsService {
                 cursor.moveToPosition(position);
 
                 rv.setTextViewText(R.id.widget_ingredient_name, cursor.getString(3));
+                String measure = cursor.getString(1) + " " + cursor.getString(2);
+                rv.setTextViewText(R.id.widget_ingredient_measure, measure);
             }
             return rv;
         }

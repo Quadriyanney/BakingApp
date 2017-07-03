@@ -31,6 +31,7 @@ public class CustomProvider extends ContentProvider{
             ret = false;
         }
 
+        assert db != null;
         if (db.isReadOnly()) {
             db.close();
             db = null;

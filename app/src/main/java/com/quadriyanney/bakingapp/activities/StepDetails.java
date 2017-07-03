@@ -12,7 +12,6 @@ public class StepDetails extends AppCompatActivity {
     String description, videoUrl, thumbnailUrl;
     StepDetailsFragment fragment = new StepDetailsFragment();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

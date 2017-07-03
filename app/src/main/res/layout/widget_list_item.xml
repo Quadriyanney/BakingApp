@@ -13,4 +13,13 @@
         android:textColor="#222"
         android:textSize="16sp"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        tools:text="6 Ingredients"
+        android:id="@+id/widget_ingredient_measure"
+        android:textColor="#777"
+        android:textSize="12sp"/>
 </LinearLayout>

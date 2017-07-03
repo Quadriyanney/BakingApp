@@ -1,5 +1,7 @@
 package com.quadriyanney.bakingapp.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,9 +30,10 @@ public class IngredientsFragment extends Fragment {
     RecyclerView recyclerView;
     IngredientsAdapter ingredientsAdapter;
     List<IngredientsInfo> ingredientList = new ArrayList<>();
-    String mIngredientsList, mIngredientName, mMeasurement;
+    String mIngredientsList, mIngredientName, mMeasurement, mRecipeName;
     JSONArray jsonIngredients;
     int counter = 0, mQuantity;
+    SharedPreferences preferences;
 
     public IngredientsFragment(){}
 
@@ -45,6 +48,7 @@ public class IngredientsFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.ingredientsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(ingredientsAdapter);
+        preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
 
         return view;
     }
@@ -66,7 +70,8 @@ public class IngredientsFragment extends Fragment {
         }
     }
 
-    public void getIngredientsList(String ingredientsList){
+    public void getIngredientsList(String ingredientsList, String recipeName){
         mIngredientsList = ingredientsList;
+        mRecipeName = recipeName;
     }
 }

@@ -6,40 +6,40 @@
     android:background="@color/colorWhite"
     tools:context="com.quadriyanney.bakingapp.fragments.StepDetailsFragment">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/videoPlayer"
-        android:visibility="gone"/>
-
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:orientation="vertical">
+
+            <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/videoPlayer"
+                android:visibility="gone"/>
+
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/thumbnail"
                 android:visibility="gone"
-                android:layout_marginRight="8dp"
-                android:layout_marginEnd="8dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:id="@+id/description"
-                    android:lineSpacingExtra="7dp"
-                    android:textSize="15sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_margin="10dp"
+                android:id="@+id/description"
+                android:lineSpacingExtra="7dp"
+                android:textSize="15sp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
