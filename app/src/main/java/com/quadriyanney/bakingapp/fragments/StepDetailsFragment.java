@@ -1,8 +1,10 @@
 package com.quadriyanney.bakingapp.fragments;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,20 +43,33 @@ public class StepDetailsFragment extends Fragment {
     public StepDetailsFragment() {}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            currentPosition = savedInstanceState.getLong("player_position");
+            mDescription = savedInstanceState.getString("desc");
+            mVideoUrl = savedInstanceState.getString("vid");
+            mThumbnailUrl = savedInstanceState.getString("thumb");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
-        thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-        description = (TextView) view.findViewById(R.id.description);
         playerView = (SimpleExoPlayerView) view.findViewById(R.id.videoPlayer);
 
-        if (!mThumbnailUrl.equals("")){
-            thumbnail.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(mThumbnailUrl).into(thumbnail);
-        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            description = (TextView) view.findViewById(R.id.description);
 
-        if (description != null){
-            description.setText(mDescription);
+            if (!mThumbnailUrl.equals("")){
+                Glide.with(getActivity()).asBitmap().load(mThumbnailUrl).into(thumbnail);
+                thumbnail.setVisibility(View.VISIBLE);
+            }
+
+            if (description != null){
+                description.setText(mDescription);
+            }
         }
 
         if (!mVideoUrl.equals("")){
@@ -89,9 +104,28 @@ public class StepDetailsFragment extends Fragment {
         player.setPlayWhenReady(true);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("player_position", player.getCurrentPosition());
+        outState.putString("desc", mDescription);
+        outState.putString("vid", mVideoUrl);
+        outState.putString("thumb", mThumbnailUrl);
+    }
+
     public void getDetails(String description, String videoUrl, String thumbnailUrl){
         mDescription = description;
         mVideoUrl = videoUrl;
         mThumbnailUrl = thumbnailUrl;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (player != null) {
+            player.stop();
+            player.release();
+        }
     }
 }

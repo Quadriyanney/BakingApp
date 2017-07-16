@@ -20,8 +20,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RecipeDetails" />
-
         <activity android:name=".activities.StepDetails" />
+
+        <service
+            android:name=".widget.WidgetIntentService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <provider
+            android:name=".widget.CustomProvider"
+            android:authorities="com.quadriyanney.bakingapp.widget"
+            android:exported="true" />
 
         <receiver android:name=".widget.WidgetProvider">
             <intent-filter>
@@ -32,13 +40,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_ingredient_widget_info" />
         </receiver>
-        <service android:name=".widget.WidgetIntentService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
 
-        <provider
-            android:authorities="com.kehinde.bakingapp.widget"
-            android:name=".widget.CustomProvider"
-            android:exported="true"/>
     </application>
-
 </manifest>

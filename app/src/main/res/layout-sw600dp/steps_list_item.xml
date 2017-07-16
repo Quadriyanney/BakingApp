@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/dimen_15"
+        android:textSize="@dimen/dimen_25"
         android:textStyle="bold"
         android:id="@+id/step_name"
         tools:text="Pour it in a bowl"
@@ -20,11 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/details"
-        android:textSize="@dimen/dimen_15"
+        android:textSize="@dimen/dimen_25"
         android:textColor="@color/colorBlack"
         tools:text="Click to see details and "
-        android:layout_marginStart="@dimen/dimen_5"
-        android:layout_marginLeft="@dimen/dimen_5" />
+        android:layout_marginStart="@dimen/dimen_10"
+        android:layout_marginLeft="@dimen/dimen_10" />
 
     <include layout="@layout/item_seperator_line" />
 </LinearLayout>

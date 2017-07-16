@@ -12,7 +12,7 @@ public class CustomContract {
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE);
     static final int INGREDIENT_LIST = 1;
     static final int INGREDIENT_ITEM = 2;
-    static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/quadriyanney.ingredientDB/"+TABLE;
+    static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/quadriyanney.ingredientDB/" + TABLE;
     static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/quadriyanney/ingredientDB" + TABLE;
 
 	public class Columns {

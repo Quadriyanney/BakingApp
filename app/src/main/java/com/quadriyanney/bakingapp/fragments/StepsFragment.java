@@ -38,12 +38,19 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
 
     public StepsFragment () {}
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            mStepsList = savedInstanceState.getString("list");
+        }
+        setAttributes();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.steps_layout, container, false);
-
-        setAttributes();
 
         stepsAdapter = new StepsAdapter(stepsList, this);
         recyclerView = (RecyclerView) view.findViewById(R.id.stepsRecyclerView);
@@ -84,5 +91,11 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
 
     public void getStepsList(String stepsList){
         mStepsList = stepsList;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("list", mStepsList);
     }
 }

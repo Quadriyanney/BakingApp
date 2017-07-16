@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorBlack"
-        android:textSize="20sp"
+        android:textSize="@dimen/dimen_15"
         android:textStyle="bold"
         android:id="@+id/ingredient_name"
         tools:text="Bean Cake"
@@ -21,11 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/measurement"
-        android:textSize="15sp"
+        android:textSize="@dimen/dimen_15"
         android:textColor="@color/colorBlack"
         tools:text="2 Cups of jsbdhkjdbl"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginStart="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_5" />
 
     <include layout="@layout/item_seperator_line"/>
 </LinearLayout>

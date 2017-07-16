@@ -5,5 +5,6 @@
     <item
         app:showAsAction="ifRoom"
         android:id="@+id/widgetButton"
-        android:title="@string/add_to_widget" />
+        android:title="@string/add_to_widget"
+        />
 </menu>

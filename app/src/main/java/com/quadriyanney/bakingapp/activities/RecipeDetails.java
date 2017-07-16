@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class RecipeDetails extends AppCompatActivity {
     String recipeName, recipeIngredients, recipeSteps, mMeasurement, mIngredientName;
     Toolbar toolbar;
     int counter = 0, mQuantity;
+    SharedPreferences sharedPreferences;
     List<IngredientsInfo> ingredientList = new ArrayList<>();
 
     @Override
@@ -61,15 +63,18 @@ public class RecipeDetails extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.detailToolbar);
         toolbar.setTitle(recipeName);
+        setSupportActionBar(toolbar);
 
         CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
+
     }
 
     public void setAttributes(){
-
         try {
             JSONArray jsonIngredients = new JSONArray(recipeIngredients);
 
@@ -90,7 +95,7 @@ public class RecipeDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbal_menu, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -99,11 +104,13 @@ public class RecipeDetails extends AppCompatActivity {
         if (item.getItemId() == R.id.widgetButton){
             AddToWidget();
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 
     public void AddToWidget(){
+
+        sharedPreferences.edit().putString("name", recipeName).apply();
 
         Uri uri = CustomContract.CONTENT_URI;
         Cursor cursor = getContentResolver().query(uri, null,
@@ -114,7 +121,6 @@ public class RecipeDetails extends AppCompatActivity {
                 Uri u = CustomContract.CONTENT_URI;
                 getContentResolver().delete(u, CustomContract.Columns._ID + "=?",
                         new String[]{cursor.getString(0)});
-                cursor.close();
             }
         }
 
@@ -155,7 +161,7 @@ public class RecipeDetails extends AppCompatActivity {
             switch(position){
                 case 0:
                     IngredientsFragment ingredientsFragment = new IngredientsFragment();
-                    ingredientsFragment.getIngredientsList(recipeIngredients, recipeName);
+                    ingredientsFragment.getIngredientsList(recipeIngredients);
                     return ingredientsFragment;
                 case 1:
                     StepsFragment stepsFragment = new StepsFragment();

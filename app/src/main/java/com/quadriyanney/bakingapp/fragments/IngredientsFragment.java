@@ -30,19 +30,26 @@ public class IngredientsFragment extends Fragment {
     RecyclerView recyclerView;
     IngredientsAdapter ingredientsAdapter;
     List<IngredientsInfo> ingredientList = new ArrayList<>();
-    String mIngredientsList, mIngredientName, mMeasurement, mRecipeName;
+    String mIngredientsList, mIngredientName, mMeasurement;
     JSONArray jsonIngredients;
     int counter = 0, mQuantity;
     SharedPreferences preferences;
 
     public IngredientsFragment(){}
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            mIngredientsList = savedInstanceState.getString("list");
+        }
+        setAttributes();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ingredients_layout, container, false);
-
-        setAttributes();
 
         ingredientsAdapter = new IngredientsAdapter(ingredientList);
         recyclerView = (RecyclerView) view.findViewById(R.id.ingredientsRecyclerView);
@@ -70,8 +77,13 @@ public class IngredientsFragment extends Fragment {
         }
     }
 
-    public void getIngredientsList(String ingredientsList, String recipeName){
+    public void getIngredientsList(String ingredientsList){
         mIngredientsList = ingredientsList;
-        mRecipeName = recipeName;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("list", mIngredientsList);
     }
 }

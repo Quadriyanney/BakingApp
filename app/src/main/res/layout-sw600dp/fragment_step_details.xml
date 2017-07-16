@@ -8,7 +8,7 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/player_height_normal"
+        android:layout_height="@dimen/player_height_tablet"
         android:id="@+id/videoPlayer"
         android:visibility="gone"
         />
@@ -23,23 +23,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_16"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/dimen_100"
-                android:layout_height="@dimen/dimen_100"
+                android:layout_width="@dimen/dimen_150"
+                android:layout_height="@dimen/dimen_150"
                 android:id="@+id/thumbnail"
                 android:visibility="gone"
-                android:layout_marginRight="@dimen/dimen_8"
-                android:layout_marginEnd="@dimen/dimen_8"
+                android:layout_marginRight="@dimen/dimen_10"
+                android:layout_marginEnd="@dimen/dimen_10"
                 android:src="@mipmap/ic_launcher"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:id="@+id/description"
-                    android:textSize="@dimen/dimen_15"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:id="@+id/description"
+                android:lineSpacingExtra="@dimen/dimen_8"
+                android:textSize="@dimen/dimen_20"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

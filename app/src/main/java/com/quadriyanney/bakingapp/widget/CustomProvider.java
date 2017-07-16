@@ -86,7 +86,7 @@ public class CustomProvider extends ContentProvider{
 
         long id = db.insert(CustomContract.TABLE, null, contentValues);
 
-        if (id>0) {
+        if (id > 0) {
             return ContentUris.withAppendedId(uri, id);
         }
         throw new SQLException("Error inserting into table: " + CustomContract.TABLE);

@@ -12,16 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ingredientsRecyclerView"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/dimen_10"
         />
-
-    <Button
-        android:layout_width="40dp"
-        android:layout_height="20dp"
-        android:text="@string/add_to_widget"
-        android:textColor="@color/colorWhite"
-        android:background="@color/colorListItem"
-        android:layout_gravity="end"
-        android:id="@+id/widgetButton"/>
-
 </LinearLayout>

@@ -21,7 +21,7 @@ public class WidgetProvider extends AppWidgetProvider{
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_ingredient_widget);
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
-        String recipe = sharedPreferences.getString("S_PREF_RECIPE","");
+        String recipe = sharedPreferences.getString("name", "");
 
         Intent intent = new Intent(context, WidgetIntentService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

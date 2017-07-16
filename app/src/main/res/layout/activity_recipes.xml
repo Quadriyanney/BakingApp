@@ -11,7 +11,7 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="@dimen/toolbar_height"
         android:id="@+id/recipeToolbar"
         android:background="@color/colorListItem"
         app:title="@string/app_name"
@@ -24,5 +24,4 @@
         android:id="@+id/recyclerView"
         android:layout_margin="10dp"
         />
-
 </LinearLayout>
