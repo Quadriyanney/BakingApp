@@ -13,8 +13,7 @@
         android:textSize="@dimen/dimen_15"
         android:textStyle="bold"
         android:id="@+id/step_name"
-        tools:text="Pour it in a bowl"
-        />
+        tools:text="Pour it in a bowl"/>
 
     <TextView
         android:layout_width="wrap_content"

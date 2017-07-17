@@ -67,9 +67,7 @@ public class StepDetailsFragment extends Fragment {
                 thumbnail.setVisibility(View.VISIBLE);
             }
 
-            if (description != null){
-                description.setText(mDescription);
-            }
+            if (description != null) description.setText(mDescription);
         }
 
         if (!mVideoUrl.equals("")){
@@ -122,10 +120,20 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        releasePlayer();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
+    public void releasePlayer(){
         if (player != null) {
             player.stop();
             player.release();
+            player = null;
         }
     }
 }

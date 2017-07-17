@@ -14,8 +14,7 @@
         android:textSize="@dimen/dimen_25"
         android:textStyle="bold"
         android:id="@+id/ingredient_name"
-        tools:text="Bean Cake"
-        />
+        tools:text="Bean Cake"/>
 
     <TextView
         android:layout_width="wrap_content"

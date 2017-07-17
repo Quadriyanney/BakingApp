@@ -15,13 +15,12 @@
         android:id="@+id/recipeToolbar"
         android:background="@color/colorListItem"
         app:title="@string/app_name"
-        app:titleTextColor="@color/colorWhite"
-        />
+        app:titleTextColor="@color/colorWhite"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
-        android:layout_margin="10dp"
-        />
+        android:layout_margin="10dp"/>
+
 </LinearLayout>

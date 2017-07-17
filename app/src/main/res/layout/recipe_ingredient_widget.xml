@@ -19,6 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ing_widget_list"
-        android:layout_below="@+id/widget_recipe_name">
-    </ListView>
+        android:layout_below="@+id/widget_recipe_name" />
+
 </RelativeLayout>

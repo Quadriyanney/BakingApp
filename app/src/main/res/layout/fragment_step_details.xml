@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/player_height_normal"
         android:id="@+id/videoPlayer"
-        android:visibility="gone"
-        />
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="wrap_content"

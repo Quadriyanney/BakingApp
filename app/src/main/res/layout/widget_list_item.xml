@@ -12,9 +12,7 @@
         android:id="@+id/widget_ingredient_name"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/dimen_15"
-        android:textStyle="bold"
-
-        />
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,4 +23,5 @@
         android:textColor="@color/colorGrey"
         android:textSize="@dimen/dimen_15"
         android:textStyle="italic"/>
+        
 </LinearLayout>

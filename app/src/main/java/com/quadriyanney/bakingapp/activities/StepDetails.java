@@ -34,7 +34,7 @@ public class StepDetails extends AppCompatActivity {
         fragment.getDetails(description, videoUrl, thumbnailUrl);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, fragment, "stepFrag");
+                .add(R.id.container, fragment, "details");
         transaction.commit();
     }
 }

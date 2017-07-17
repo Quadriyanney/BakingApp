@@ -5,6 +5,18 @@
     <item
         app:showAsAction="ifRoom"
         android:id="@+id/widgetButton"
-        android:title="@string/add_to_widget"
-        />
+        android:title="@string/add_to_widget"/>
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/stepsButton"
+        android:title="@string/display_steps"
+        android:visible="false"/>
+
+    <item
+        app:showAsAction="never"
+        android:id="@+id/ingredientsButton"
+        android:title="@string/display_ingredients"
+        android:visible="false"/>
+
 </menu>
