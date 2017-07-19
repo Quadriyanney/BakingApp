@@ -66,7 +66,6 @@ public class StepDetailsFragment extends Fragment {
                 Glide.with(getActivity()).asBitmap().load(mThumbnailUrl).into(thumbnail);
                 thumbnail.setVisibility(View.VISIBLE);
             }
-
             if (description != null) description.setText(mDescription);
         }
 
@@ -74,7 +73,6 @@ public class StepDetailsFragment extends Fragment {
             playerView.setVisibility(View.VISIBLE);
             playVideo();
         }
-
         return view;
     }
 
@@ -133,7 +131,6 @@ public class StepDetailsFragment extends Fragment {
         if (player != null) {
             player.stop();
             player.release();
-            player = null;
         }
     }
 }

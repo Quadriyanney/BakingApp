@@ -128,13 +128,11 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         counter = 0;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbal_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -142,9 +140,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         return super.onOptionsItemSelected(item);
     }
 
-
     public void AddToWidget () {
-
         sharedPreferences.edit().putString("name", recipeName).apply();
 
         Uri uri = CustomContract.CONTENT_URI;
