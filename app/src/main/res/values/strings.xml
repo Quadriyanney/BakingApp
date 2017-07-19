@@ -4,7 +4,5 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="add_to_widget">Add to Widget</string>
-    <string name="display_steps">Display Steps</string>
-    <string name="display_ingredients">Display Ingredients</string>
-    <string name="instruction">Click the menu button to view steps</string>
+    <string name="instruction">Click on a step to view details</string>
 </resources>

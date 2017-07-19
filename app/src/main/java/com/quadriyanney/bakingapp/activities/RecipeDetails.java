@@ -4,8 +4,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,15 +13,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.IngredientsInfo;
+import com.quadriyanney.bakingapp.data.StepsInfo;
 import com.quadriyanney.bakingapp.fragments.IngredientsFragment;
 import com.quadriyanney.bakingapp.fragments.StepDetailsFragment;
 import com.quadriyanney.bakingapp.fragments.StepsFragment;
@@ -32,28 +34,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class RecipeDetails extends AppCompatActivity {
+public class RecipeDetails extends AppCompatActivity implements StepsFragment.ClickListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    String recipeName, recipeIngredients, recipeSteps, mMeasurement, mIngredientName;
+    String recipeName, recipeIngredients, recipeSteps, mMeasurement, mIngredientName, name;
+    String mShortDescription, mDescription, mVideoUrl, mThumbnailUrl;
     Toolbar toolbar;
+    JSONArray jsonSteps, jsonIngredients;
     int counter = 0, mQuantity;
     SharedPreferences sharedPreferences;
-    List<IngredientsInfo> ingredientList = new ArrayList<>();
-    private boolean isTwoPane;
+    ArrayList<IngredientsInfo> ingredientsList = new ArrayList<>();
+    ArrayList<StepsInfo> stepsList = new ArrayList<>();
     IngredientsFragment ingredientsFragment = new IngredientsFragment();
     StepsFragment stepsFragment = new StepsFragment();
-    FragmentTransaction transaction;
     StepDetailsFragment detailsFragment = new StepDetailsFragment();
+    private boolean isTwoPane;
+    TextView textView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_details);
+
+        if (findViewById(R.id.detail_container) != null) isTwoPane = true;
 
         if (getIntent().getExtras().getString("recipe") != null){
             recipeName = getIntent().getExtras().getString("recipe");
@@ -65,117 +71,101 @@ public class RecipeDetails extends AppCompatActivity {
             recipeSteps = getIntent().getExtras().getString("steps");
         }
 
+        textView = (TextView) findViewById(R.id.instruction);
+
         toolbar = (Toolbar) findViewById(R.id.detailToolbar);
         toolbar.setTitle(recipeName);
         setSupportActionBar(toolbar);
 
-        setAttributes();
+        setIngredientsAttributes();
+        setStepsAttributes();
 
-        if (findViewById(R.id.detail_container) != null) {
-            isTwoPane = true;
-        }
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-        if (isTwoPane) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            ingredientsFragment.getIngredientsList(recipeIngredients);
-            transaction = getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, ingredientsFragment, "ingredients");
-            transaction.commit();
+        CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
 
-            transaction = getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_container, detailsFragment, "details");
-            transaction.commit();
-        }
-        else {
-            viewPager = (ViewPager) findViewById(R.id.viewPager);
-            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-            CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
-
-            viewPager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(viewPager);
-        }
-
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        
         sharedPreferences = this.getSharedPreferences("data", Context.MODE_PRIVATE);
     }
 
-    public void setAttributes(){
+    public void setIngredientsAttributes () {
         try {
-            JSONArray jsonIngredients = new JSONArray(recipeIngredients);
+            jsonIngredients = new JSONArray(recipeIngredients);
 
             while (counter < jsonIngredients.length()){
                 mQuantity = jsonIngredients.getJSONObject(counter).getInt("quantity");
                 mMeasurement = jsonIngredients.getJSONObject(counter).getString("measure");
                 mIngredientName = jsonIngredients.getJSONObject(counter).getString("ingredient");
 
-                ingredientList.add(new IngredientsInfo(mQuantity, mMeasurement, mIngredientName));
+                ingredientsList.add(new IngredientsInfo(mQuantity, mMeasurement, mIngredientName));
                 counter++;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        counter = 0;
+    }
+    
+    public void setStepsAttributes () {
+        try {
+            jsonSteps = new JSONArray(recipeSteps);
+
+            while (counter < jsonSteps.length()){
+                mShortDescription = jsonSteps.getJSONObject(counter).getString("shortDescription");
+                mDescription = jsonSteps.getJSONObject(counter).getString("description");
+                mVideoUrl = jsonSteps.getJSONObject(counter).getString("videoURL");
+                mThumbnailUrl = jsonSteps.getJSONObject(counter).getString("thumbnailURL");
+
+                stepsList.add(new StepsInfo(mShortDescription, mDescription, mVideoUrl, mThumbnailUrl));
+                counter++;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        counter = 0;
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbal_menu, menu);
-        if (isTwoPane){
-            menu.getItem(R.id.stepsButton).setVisible(true);
-            menu.getItem(R.id.ingredientsButton).setVisible(true);
-        }
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.widgetButton){
-            AddToWidget();
-        }
-        else if (item.getItemId() == R.id.stepsButton){
-            stepsFragment.getStepsList(recipeSteps);
-            transaction = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, stepsFragment, "steps");
-            transaction.commit();
-        }
-        else if (item.getItemId() == R.id.ingredientsButton){
-            ingredientsFragment.getIngredientsList(recipeIngredients);
-            transaction = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, ingredientsFragment, "ingredients");
-            transaction.commit();
-        }
+        if (item.getItemId() == R.id.widgetButton) AddToWidget();
         return super.onOptionsItemSelected(item);
     }
 
 
-    public void AddToWidget(){
+    public void AddToWidget () {
 
         sharedPreferences.edit().putString("name", recipeName).apply();
 
         Uri uri = CustomContract.CONTENT_URI;
-        Cursor cursor = getContentResolver().query(uri, null,
-                null, null, null);
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
         if (cursor != null){
             while (cursor.moveToNext()){
-                Uri u = CustomContract.CONTENT_URI;
-                getContentResolver().delete(u, CustomContract.Columns._ID + "=?",
+                getContentResolver().delete(uri, CustomContract.Columns._ID + "=?",
                         new String[]{cursor.getString(0)});
             }
         }
 
-
         ContentValues cv = new ContentValues();
 
-        for (IngredientsInfo info : ingredientList){
+        for (IngredientsInfo info : ingredientsList){
             cv.clear();
             cv.put(CustomContract.Columns.QUANTITY, info.getQuantity());
             cv.put(CustomContract.Columns.MEASURE, info.getMeasurement());
             cv.put(CustomContract.Columns.INGREDIENT, info.getIngredient_name());
 
-            Uri uri1 = CustomContract.CONTENT_URI;
-            getApplicationContext().getContentResolver().insert(uri1, cv);
+            getApplicationContext().getContentResolver().insert(uri, cv);
         }
 
         int [] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(
@@ -191,6 +181,26 @@ public class RecipeDetails extends AppCompatActivity {
         manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ing_widget_list);
     }
 
+    @Override
+    public void onStepClicked(int position) {
+        if (isTwoPane) {
+            if (textView.getVisibility() == View.VISIBLE) textView.setVisibility(View.GONE);
+            detailsFragment.getDetails(stepsList.get(position).getDescription(),
+                    stepsList.get(position).getVideoUrl(),
+                    stepsList.get(position).getThumbnailUrl());
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_container, detailsFragment, "details")
+                    .commit();
+        } else {
+            Intent intent = new Intent(RecipeDetails.this, StepDetails.class);
+            intent.putExtra("description", stepsList.get(position).getDescription());
+            intent.putExtra("vUrl", stepsList.get(position).getVideoUrl());
+            intent.putExtra("tUrl", stepsList.get(position).getThumbnailUrl());
+            startActivity(intent);
+        }
+    }
+
     private class CustomAdapter extends FragmentStatePagerAdapter{
 
         CustomAdapter(FragmentManager fragmentManager){
@@ -201,10 +211,10 @@ public class RecipeDetails extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    ingredientsFragment.getIngredientsList(recipeIngredients);
+                    ingredientsFragment.getIngredientsList(ingredientsList);
                     return ingredientsFragment;
                 case 1:
-                    stepsFragment.getStepsList(recipeSteps);
+                    stepsFragment.getStepsList(stepsList);
                     return stepsFragment;
                 default:
                     return null;
@@ -218,13 +228,10 @@ public class RecipeDetails extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String name = null;
-            if (position == 0){
-                name = "Ingredients";
-            }
-            if (position == 1){
-                name = "Steps";
-            }
+            if (position == 0) name = "Ingredients";
+            
+            if (position == 1) name = "Steps";
+            
             return name;
         }
     }

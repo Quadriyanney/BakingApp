@@ -1,10 +1,13 @@
 package com.quadriyanney.bakingapp.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by quadriy on 6/23/17.
  */
 
-public class IngredientsInfo{
+public class IngredientsInfo implements Parcelable{
 
     private int quantity;
     private String measurement, ingredient_name;
@@ -15,27 +18,45 @@ public class IngredientsInfo{
         this.ingredient_name = ingredient_name;
     }
 
-    public int getQuantity() {
-        return quantity;
+    private IngredientsInfo(Parcel in) {
+        quantity = in.readInt();
+        measurement = in.readString();
+        ingredient_name = in.readString();
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public static final Creator<IngredientsInfo> CREATOR = new Creator<IngredientsInfo>() {
+        @Override
+        public IngredientsInfo createFromParcel(Parcel in) {
+            return new IngredientsInfo(in);
+        }
+
+        @Override
+        public IngredientsInfo[] newArray(int size) {
+            return new IngredientsInfo[size];
+        }
+    };
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getMeasurement() {
         return measurement;
     }
 
-    public void setMeasurement(String measurement) {
-        this.measurement = measurement;
-    }
-
     public String getIngredient_name() {
         return ingredient_name;
     }
 
-    public void setIngredient_name(String ingredient_name) {
-        this.ingredient_name = ingredient_name;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(quantity);
+        parcel.writeString(measurement);
+        parcel.writeString(ingredient_name);
     }
 }

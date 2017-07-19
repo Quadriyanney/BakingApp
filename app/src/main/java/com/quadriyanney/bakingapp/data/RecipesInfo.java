@@ -26,15 +26,7 @@ public class RecipesInfo{
         return ingredientsList;
     }
 
-    public void setIngredientsList(String ingredientsList) {
-        this.ingredientsList = ingredientsList;
-    }
-
     public String getStepsList() {
         return stepsList;
-    }
-
-    public void setStepsList(String stepsList) {
-        this.stepsList = stepsList;
     }
 }

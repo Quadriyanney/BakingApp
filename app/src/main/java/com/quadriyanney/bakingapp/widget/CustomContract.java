@@ -5,8 +5,8 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class CustomContract {
-	public static final String DB_NAME = "com.quadriyanney.bakingapp.widget.ingredients";
-	public static final int DB_VERSION = 1;
+	static final String DB_NAME = "com.quadriyanney.bakingapp.widget.ingredients";
+	static final int DB_VERSION = 1;
 	static final String TABLE = "ingredients";
     static final String AUTHORITY = "com.quadriyanney.bakingapp.widget";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE);

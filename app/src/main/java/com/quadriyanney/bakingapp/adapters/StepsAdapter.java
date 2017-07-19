@@ -17,9 +17,8 @@ import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
 
-    List<StepsInfo> stepsList;
-    StepItemClickListener listener;
-    String fixed = "Click to view details", video, image;
+    private List<StepsInfo> stepsList;
+    private StepItemClickListener listener;
 
     public interface StepItemClickListener{
         void onStepItemClicked(int clicked);
@@ -39,11 +38,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(StepsAdapter.ViewHolder holder, int position) {
         holder.stepName.setText(stepsList.get(position).getShortDescription());
-        video = stepsList.get(position).getVideoUrl();
-        image = stepsList.get(position).getThumbnailUrl();
+        String video = stepsList.get(position).getVideoUrl();
+        String image = stepsList.get(position).getThumbnailUrl();
 
         String s;
 
+        String fixed = "Click to view details";
         if (video.equals("") && image.equals("")){
             holder.stepDetails.setText(fixed);
         }

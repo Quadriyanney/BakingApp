@@ -2,7 +2,6 @@ package com.quadriyanney.bakingapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,7 +40,6 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
     LinearLayout root_layout;
     RecyclerView recyclerView;
     JSONArray jsonArray;
-    private boolean isTwoPane;
 
     @Nullable private RecipeIdlingResource recipeIdlingResource;
 
@@ -49,10 +47,6 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
-
-        if (findViewById(R.id.detail_container) != null) isTwoPane = true;
-
-        if (isTwoPane) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         root_layout = (LinearLayout) findViewById(R.id.root_layout);
 
@@ -77,8 +71,7 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             urlToQuery = new Uri.Builder().scheme("https")
                     .authority("d17h27t6h515a5.cloudfront.net").appendPath("topher")
                     .appendPath("2017").appendPath("May")

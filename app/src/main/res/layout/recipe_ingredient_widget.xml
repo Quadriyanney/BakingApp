@@ -10,7 +10,7 @@
         android:gravity="center_horizontal"
         android:id="@+id/widget_recipe_name"
         android:padding="@dimen/dimen_16"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorListItem"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
