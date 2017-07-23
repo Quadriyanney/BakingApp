@@ -39,6 +39,7 @@ public class StepDetailsFragment extends Fragment {
     TextView description;
     SimpleExoPlayerView playerView;
     SimpleExoPlayer player;
+    boolean isTwoPane;
 
     public StepDetailsFragment() {}
 
@@ -51,6 +52,7 @@ public class StepDetailsFragment extends Fragment {
             mVideoUrl = savedInstanceState.getString("vid");
             mThumbnailUrl = savedInstanceState.getString("thumb");
         }
+        if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class StepDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
         playerView = (SimpleExoPlayerView) view.findViewById(R.id.videoPlayer);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || isTwoPane){
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             description = (TextView) view.findViewById(R.id.description);
 
@@ -77,7 +79,6 @@ public class StepDetailsFragment extends Fragment {
     }
 
     private void playVideo() {
-
         Handler handler = new Handler();
         BandwidthMeter meter = new DefaultBandwidthMeter();
         TrackSelection.Factory selection = new AdaptiveTrackSelection.Factory(meter);

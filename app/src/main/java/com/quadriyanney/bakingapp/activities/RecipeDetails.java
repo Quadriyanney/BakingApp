@@ -197,7 +197,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         }
     }
 
-    private class CustomAdapter extends FragmentStatePagerAdapter{
+    private class CustomAdapter extends FragmentStatePagerAdapter {
 
         CustomAdapter(FragmentManager fragmentManager){
             super(fragmentManager);
@@ -225,7 +225,6 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) name = "Ingredients";
-            
             if (position == 1) name = "Steps";
             
             return name;

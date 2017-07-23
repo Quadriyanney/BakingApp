@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class IngredientsInfo implements Parcelable{
 
-    private int quantity;
+    private double quantity;
     private String measurement, ingredient_name;
 
     public IngredientsInfo(int quantity, String measurement, String ingredient_name){
@@ -36,7 +36,7 @@ public class IngredientsInfo implements Parcelable{
         }
     };
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
@@ -55,7 +55,7 @@ public class IngredientsInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(quantity);
+        parcel.writeDouble(quantity);
         parcel.writeString(measurement);
         parcel.writeString(ingredient_name);
     }

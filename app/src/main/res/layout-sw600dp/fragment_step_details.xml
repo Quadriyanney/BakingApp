@@ -23,6 +23,7 @@
         <ImageView
             android:layout_width="@dimen/dimen_150"
             android:layout_height="@dimen/dimen_150"
+            android:id="@+id/thumbnail"
             android:layout_marginRight="@dimen/dimen_10"
             android:layout_marginEnd="@dimen/dimen_10"
             android:visibility="gone"/>

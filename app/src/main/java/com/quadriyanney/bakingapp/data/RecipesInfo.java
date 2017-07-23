@@ -6,10 +6,11 @@ package com.quadriyanney.bakingapp.data;
 
 public class RecipesInfo{
 
-    private String name, ingredientsList, stepsList;
+    private String name, image, ingredientsList, stepsList;
 
-    public RecipesInfo(String name, String ingredientsList, String stepsList) {
+    public RecipesInfo(String name, String image, String ingredientsList, String stepsList) {
         this.name = name;
+        this.image = image;
         this.ingredientsList = ingredientsList;
         this.stepsList = stepsList;
     }
@@ -18,8 +19,8 @@ public class RecipesInfo{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getImage() {
+        return image;
     }
 
     public String getIngredientsList() {
@@ -29,4 +30,5 @@ public class RecipesInfo{
     public String getStepsList() {
         return stepsList;
     }
+
 }

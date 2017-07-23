@@ -22,7 +22,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.quadriyanney.bakingapp.Controller;
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.RecipeIdlingResource;
-import com.quadriyanney.bakingapp.adapters.RecipeNameAdapter;
+import com.quadriyanney.bakingapp.adapters.RecipesAdapter;
 import com.quadriyanney.bakingapp.data.RecipesInfo;
 
 import org.json.JSONArray;
@@ -31,12 +31,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Recipes extends AppCompatActivity implements RecipeNameAdapter.ListItemClickListener {
+public class Recipes extends AppCompatActivity implements RecipesAdapter.ListItemClickListener {
 
-    String urlToQuery, jsonTag = "json_tag", recipeName, recipeIngredients, recipeSteps;
+    String urlToQuery, jsonTag = "json_tag", recipeName, recipeIngredients, recipeSteps, recipeImage;
     int iterator = 0;
     List<RecipesInfo> recipesInfoList;
-    RecipeNameAdapter nameAdapter;
+    RecipesAdapter adapter;
     LinearLayout root_layout;
     RecyclerView recyclerView;
     JSONArray jsonArray;
@@ -49,6 +49,7 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
         setContentView(R.layout.activity_recipes);
 
         root_layout = (LinearLayout) findViewById(R.id.root_layout);
+        recipesInfoList = new ArrayList<>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -57,17 +58,14 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         }
 
-        recipesInfoList = new ArrayList<>();
-
         if (savedInstanceState != null){
             try {
                 JSONArray array = new JSONArray(savedInstanceState.getString("list"));
                 toList(array);
-                nameAdapter = new RecipeNameAdapter(recipesInfoList, this);
-                recyclerView.setAdapter(nameAdapter);
-                nameAdapter.notifyDataSetChanged();
+                adapter = new RecipesAdapter(this, recipesInfoList, this);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 jsonArray = array;
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -98,8 +96,8 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        nameAdapter = new RecipeNameAdapter(recipesInfoList, this);
-        recyclerView.setAdapter(nameAdapter);
+        adapter = new RecipesAdapter(this, recipesInfoList, this);
+        recyclerView.setAdapter(adapter);
 
         JsonArrayRequest request = new JsonArrayRequest(urlToQuery,
                 new Response.Listener<JSONArray>() {
@@ -108,7 +106,7 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
                         progressDialog.dismiss();
                         jsonArray = response;
                         toList(response);
-                        nameAdapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         setRecipeIdlingResource(true);
                     }
                 },
@@ -139,10 +137,11 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
         try {
             while (iterator < array.length()){
                 recipeName = array.getJSONObject(iterator).getString("name");
+                recipeImage = array.getJSONObject(iterator).getString("image");
                 recipeIngredients = array.getJSONObject(iterator).getJSONArray("ingredients").toString();
                 recipeSteps = array.getJSONObject(iterator).getJSONArray("steps").toString();
-                recipesInfoList.add(new RecipesInfo(recipeName, recipeIngredients, recipeSteps));
 
+                recipesInfoList.add(new RecipesInfo(recipeName, recipeImage, recipeIngredients, recipeSteps));
                 iterator++;
             }
         } catch (JSONException e) {
@@ -159,7 +158,7 @@ public class Recipes extends AppCompatActivity implements RecipeNameAdapter.List
     }
 
     public void setRecipeIdlingResource(boolean state) {
-        if (recipeIdlingResource == null){
+        if (recipeIdlingResource == null) {
             return;
         }
         recipeIdlingResource.setIsIdleState(state);
