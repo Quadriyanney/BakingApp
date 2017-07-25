@@ -49,7 +49,6 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
     ArrayList<StepsInfo> stepsList = new ArrayList<>();
     IngredientsFragment ingredientsFragment = new IngredientsFragment();
     StepsFragment stepsFragment = new StepsFragment();
-    StepDetailsFragment detailsFragment = new StepDetailsFragment();
     private boolean isTwoPane;
     TextView textView;
 
@@ -181,6 +180,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
     public void onStepClicked(int position) {
         if (isTwoPane) {
             if (textView.getVisibility() == View.VISIBLE) textView.setVisibility(View.GONE);
+            StepDetailsFragment detailsFragment = new StepDetailsFragment();
             detailsFragment.getDetails(stepsList.get(position).getDescription(),
                     stepsList.get(position).getVideoUrl(),
                     stepsList.get(position).getThumbnailUrl());

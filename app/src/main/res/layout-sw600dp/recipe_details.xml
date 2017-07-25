@@ -57,7 +57,7 @@
                 android:layout_gravity="center"
                 android:textStyle="italic"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/dimen_35"
+                android:textSize="@dimen/dimen_30"
                 android:id="@+id/instruction"
                 android:text="@string/instruction"/>
         </FrameLayout>

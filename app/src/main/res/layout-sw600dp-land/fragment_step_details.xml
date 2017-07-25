@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:id="@+id/description"
-            android:textSize="@dimen/dimen_35"
+            android:textSize="@dimen/dimen_30"
             tools:text="Add three cups of Sugar"/>
     </LinearLayout>
 </LinearLayout>

@@ -47,20 +47,20 @@ public class StepDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
-            currentPosition = savedInstanceState.getLong("player_position");
+            currentPosition = savedInstanceState.getLong("player_position", 0);
             mDescription = savedInstanceState.getString("desc");
             mVideoUrl = savedInstanceState.getString("vid");
             mThumbnailUrl = savedInstanceState.getString("thumb");
         }
-        if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
+        if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
         playerView = (SimpleExoPlayerView) view.findViewById(R.id.videoPlayer);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || isTwoPane){
+        if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             description = (TextView) view.findViewById(R.id.description);
 
@@ -104,7 +104,9 @@ public class StepDetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("player_position", player.getCurrentPosition());
+        if (player != null) {
+            outState.putLong("player_position", player.getCurrentPosition());
+        }
         outState.putString("desc", mDescription);
         outState.putString("vid", mVideoUrl);
         outState.putString("thumb", mThumbnailUrl);
