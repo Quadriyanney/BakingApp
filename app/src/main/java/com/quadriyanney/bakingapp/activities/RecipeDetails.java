@@ -207,11 +207,11 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    ingredientsFragment.getIngredientsList(ingredientsList);
-                    return ingredientsFragment;
-                case 1:
                     stepsFragment.getStepsList(stepsList);
                     return stepsFragment;
+                case 1:
+                    ingredientsFragment.getIngredientsList(ingredientsList);
+                    return ingredientsFragment;
                 default:
                     return null;
             }
@@ -224,8 +224,8 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) name = "Ingredients";
-            if (position == 1) name = "Steps";
+            if (position == 0) name = "Steps";
+            if (position == 1) name = "Ingredients";
             
             return name;
         }

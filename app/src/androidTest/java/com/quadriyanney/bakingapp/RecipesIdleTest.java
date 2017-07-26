@@ -28,7 +28,7 @@ public class RecipesIdleTest {
     private IdlingResource idlingResource;
 
     @Rule
-    public ActivityTestRule<Recipes> recipesActivityTestRule = new ActivityTestRule<Recipes>(Recipes.class);
+    public ActivityTestRule<Recipes> recipesActivityTestRule = new ActivityTestRule<>(Recipes.class);
 
     @Before
     public void registerIdlingResource() {
