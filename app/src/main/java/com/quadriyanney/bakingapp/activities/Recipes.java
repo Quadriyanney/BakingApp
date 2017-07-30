@@ -103,7 +103,7 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        progressDialog.dismiss();
+                        progressDialog.hide();
                         jsonArray = response;
                         toList(response);
                         adapter.notifyDataSetChanged();
@@ -113,8 +113,8 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        progressDialog.dismiss();
                         setRecipeIdlingResource(false);
+                        progressDialog.hide();
                         Snackbar.make(root_layout, "Poor/No Connection", Snackbar.LENGTH_INDEFINITE).setAction(
                                 "Refresh", new View.OnClickListener() {
                                     @Override

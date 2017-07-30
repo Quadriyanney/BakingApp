@@ -12,7 +12,7 @@ public class IngredientsInfo implements Parcelable{
     private double quantity;
     private String measurement, ingredient_name;
 
-    public IngredientsInfo(int quantity, String measurement, String ingredient_name){
+    public IngredientsInfo(double quantity, String measurement, String ingredient_name){
         this.quantity = quantity;
         this.measurement = measurement;
         this.ingredient_name = ingredient_name;

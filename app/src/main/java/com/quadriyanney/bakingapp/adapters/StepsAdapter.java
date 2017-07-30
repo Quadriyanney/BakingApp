@@ -1,6 +1,7 @@
 package com.quadriyanney.bakingapp.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,20 +43,17 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
         String image = stepsList.get(position).getThumbnailUrl();
 
         String s;
-
         String fixed = "Click to view details";
-        if (video.equals("") && image.equals("")){
+
+        if (TextUtils.isEmpty(video) && TextUtils.isEmpty(image)){
             holder.stepDetails.setText(fixed);
-        }
-        else if (!video.equals("") && image.equals("")){
+        } else if (!TextUtils.isEmpty(video) && TextUtils.isEmpty(image)){
             s = fixed + " and videos";
             holder.stepDetails.setText(s);
-        }
-        else if (video.equals("") && !image.equals("")){
+        } else if (TextUtils.isEmpty(video) && !TextUtils.isEmpty(image)){
             s = fixed + " and images";
             holder.stepDetails.setText(s);
-        }
-        else {
+        } else {
             s = fixed + ", images and videos";
             holder.stepDetails.setText(s);
         }

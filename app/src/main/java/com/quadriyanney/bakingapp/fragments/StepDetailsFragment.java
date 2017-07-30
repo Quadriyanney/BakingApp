@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,21 +60,32 @@ public class StepDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
         if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
         playerView = (SimpleExoPlayerView) view.findViewById(R.id.videoPlayer);
+        thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+        description = (TextView) view.findViewById(R.id.description);
 
         if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            description = (TextView) view.findViewById(R.id.description);
-
-            if (!mThumbnailUrl.equals("")){
-                Glide.with(getActivity()).asBitmap().load(mThumbnailUrl).into(thumbnail);
+            if (!TextUtils.isEmpty(mVideoUrl)){
+                playerView.setVisibility(View.VISIBLE);
+                playVideo();
+            }
+            if (!TextUtils.isEmpty(mThumbnailUrl)){
+                Glide.with(getContext()).asBitmap().load(mThumbnailUrl).into(thumbnail);
                 thumbnail.setVisibility(View.VISIBLE);
             }
             if (description != null) description.setText(mDescription);
-        }
 
-        if (!mVideoUrl.equals("")){
-            playerView.setVisibility(View.VISIBLE);
-            playVideo();
+        } else {
+            if (!TextUtils.isEmpty(mVideoUrl)){
+                playerView.setVisibility(View.VISIBLE);
+                playVideo();
+            } else {
+                if (!TextUtils.isEmpty(mThumbnailUrl)){
+                    Glide.with(getActivity()).asBitmap().load(mThumbnailUrl).into(thumbnail);
+                    thumbnail.setVisibility(View.VISIBLE);
+                }
+                if (description != null) description.setText(mDescription);
+            }
+
         }
         return view;
     }
@@ -116,6 +128,12 @@ public class StepDetailsFragment extends Fragment {
         mDescription = description;
         mVideoUrl = videoUrl;
         mThumbnailUrl = thumbnailUrl;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+            playVideo();
     }
 
     @Override

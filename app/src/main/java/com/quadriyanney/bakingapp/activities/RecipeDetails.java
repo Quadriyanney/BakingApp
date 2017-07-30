@@ -47,8 +47,6 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
     SharedPreferences sharedPreferences;
     ArrayList<IngredientsInfo> ingredientsList = new ArrayList<>();
     ArrayList<StepsInfo> stepsList = new ArrayList<>();
-    IngredientsFragment ingredientsFragment = new IngredientsFragment();
-    StepsFragment stepsFragment = new StepsFragment();
     private boolean isTwoPane;
     TextView textView;
 
@@ -190,9 +188,8 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
                     .commit();
         } else {
             Intent intent = new Intent(RecipeDetails.this, StepDetails.class);
-            intent.putExtra("description", stepsList.get(position).getDescription());
-            intent.putExtra("vUrl", stepsList.get(position).getVideoUrl());
-            intent.putExtra("tUrl", stepsList.get(position).getThumbnailUrl());
+            intent.putParcelableArrayListExtra("steps_list", stepsList);
+            intent.putExtra("position", position);
             startActivity(intent);
         }
     }
@@ -207,9 +204,11 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
+                    StepsFragment stepsFragment = new StepsFragment();
                     stepsFragment.getStepsList(stepsList);
                     return stepsFragment;
                 case 1:
+                    IngredientsFragment ingredientsFragment = new IngredientsFragment();
                     ingredientsFragment.getIngredientsList(ingredientsList);
                     return ingredientsFragment;
                 default:

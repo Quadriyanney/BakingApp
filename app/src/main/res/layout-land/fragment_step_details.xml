@@ -12,4 +12,27 @@
         android:id="@+id/videoPlayer"
         android:visibility="gone"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_16"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_150"
+            android:layout_height="@dimen/dimen_150"
+            android:id="@+id/thumbnail"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/dimen_8"
+            android:layout_marginEnd="@dimen/dimen_8" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/description"
+            tools:text="Add three cups of Sugar"
+            android:textSize="@dimen/dimen_15"/>
+    </LinearLayout>
 </LinearLayout>
