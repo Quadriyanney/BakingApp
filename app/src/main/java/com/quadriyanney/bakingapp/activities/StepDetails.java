@@ -36,9 +36,8 @@ public class StepDetails extends AppCompatActivity {
         } else {
             position = getIntent().getExtras().getInt("position", 0);
             positionChecker();
+            displayDetails();
         }
-
-        displayDetails();
     }
 
     public void displayDetails(){
