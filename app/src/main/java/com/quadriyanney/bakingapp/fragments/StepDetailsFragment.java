@@ -91,6 +91,7 @@ public class StepDetailsFragment extends Fragment {
     }
 
     private void playVideo() {
+        if (player == null) {
         Handler handler = new Handler();
         BandwidthMeter meter = new DefaultBandwidthMeter();
         TrackSelection.Factory selection = new AdaptiveTrackSelection.Factory(meter);
@@ -111,6 +112,7 @@ public class StepDetailsFragment extends Fragment {
 
         if (currentPosition != 0) player.seekTo(currentPosition);
         player.setPlayWhenReady(true);
+        }
     }
 
     @Override
@@ -152,6 +154,7 @@ public class StepDetailsFragment extends Fragment {
         if (player != null) {
             player.stop();
             player.release();
+            player = null;
         }
     }
 }
