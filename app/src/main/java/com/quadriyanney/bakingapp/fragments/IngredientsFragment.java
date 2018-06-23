@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.adapters.IngredientsAdapter;
-import com.quadriyanney.bakingapp.data.IngredientsInfo;
+import com.quadriyanney.bakingapp.data.model.Ingredient;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class IngredientsFragment extends Fragment {
 
     RecyclerView recyclerView;
     IngredientsAdapter ingredientsAdapter;
-    ArrayList<IngredientsInfo> mIngredientList = new ArrayList<>();
+    ArrayList<Ingredient> mIngredientList = new ArrayList<>();
 
     public IngredientsFragment(){}
 
@@ -48,7 +48,7 @@ public class IngredientsFragment extends Fragment {
         return view;
     }
 
-    public void getIngredientsList(ArrayList<IngredientsInfo> ingredientsList){
+    public void getIngredientsList(ArrayList<Ingredient> ingredientsList){
         mIngredientList = ingredientsList;
     }
 

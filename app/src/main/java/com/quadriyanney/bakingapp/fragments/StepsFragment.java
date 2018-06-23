@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.adapters.StepsAdapter;
-import com.quadriyanney.bakingapp.data.StepsInfo;
+import com.quadriyanney.bakingapp.data.model.Step;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class StepsFragment extends Fragment implements StepsAdapter.StepItemClickListener {
 
-    ArrayList<StepsInfo> mStepsList = new ArrayList<>();
+    ArrayList<Step> mStepsList = new ArrayList<>();
     StepsAdapter stepsAdapter;
     RecyclerView recyclerView;
     ClickListener listener;
@@ -54,7 +54,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.StepItemClic
         return view;
     }
 
-    public void getStepsList(ArrayList<StepsInfo> stepsList){
+    public void getStepsList(ArrayList<Step> stepsList){
         mStepsList = stepsList;
     }
 

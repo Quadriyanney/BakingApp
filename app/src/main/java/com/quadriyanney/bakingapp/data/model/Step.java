@@ -1,41 +1,45 @@
-package com.quadriyanney.bakingapp.data;
+package com.quadriyanney.bakingapp.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by quadriy on 6/23/17.
- */
 
-public class StepsInfo implements Parcelable{
+public class Step implements Parcelable {
 
+    private int id;
     private String shortDescription, description, videoUrl, thumbnailUrl;
 
-    public StepsInfo(String shortDescription, String description, String videoUrl, String thumbnailUrl){
+    public Step(int id, String shortDescription, String description, String videoUrl,
+                String thumbnailUrl){
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoUrl = videoUrl;
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    private StepsInfo(Parcel in) {
+    private Step(Parcel in) {
+        id = in.readInt();
         shortDescription = in.readString();
         description = in.readString();
         videoUrl = in.readString();
         thumbnailUrl = in.readString();
     }
 
-    public static final Creator<StepsInfo> CREATOR = new Creator<StepsInfo>() {
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
         @Override
-        public StepsInfo createFromParcel(Parcel in) {
-            return new StepsInfo(in);
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
         }
 
         @Override
-        public StepsInfo[] newArray(int size) {
-            return new StepsInfo[size];
+        public Step[] newArray(int size) {
+            return new Step[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
 
     public String getShortDescription() {
         return shortDescription;
@@ -60,6 +64,7 @@ public class StepsInfo implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
         parcel.writeString(shortDescription);
         parcel.writeString(description);
         parcel.writeString(videoUrl);

@@ -22,8 +22,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.quadriyanney.bakingapp.R;
-import com.quadriyanney.bakingapp.data.IngredientsInfo;
-import com.quadriyanney.bakingapp.data.StepsInfo;
+import com.quadriyanney.bakingapp.data.model.Ingredient;
+import com.quadriyanney.bakingapp.data.model.Step;
 import com.quadriyanney.bakingapp.fragments.IngredientsFragment;
 import com.quadriyanney.bakingapp.fragments.StepDetailsFragment;
 import com.quadriyanney.bakingapp.fragments.StepsFragment;
@@ -45,8 +45,8 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
     JSONArray jsonSteps, jsonIngredients;
     int counter = 0, mQuantity;
     SharedPreferences sharedPreferences;
-    ArrayList<IngredientsInfo> ingredientsList = new ArrayList<>();
-    ArrayList<StepsInfo> stepsList = new ArrayList<>();
+    ArrayList<Ingredient> ingredientsList = new ArrayList<>();
+    ArrayList<Step> stepsList = new ArrayList<>();
     private boolean isTwoPane;
     TextView textView;
 
@@ -68,17 +68,17 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
             recipeSteps = getIntent().getExtras().getString("steps");
         }
 
-        textView = (TextView) findViewById(R.id.instruction);
+        textView = findViewById(R.id.instruction);
 
-        toolbar = (Toolbar) findViewById(R.id.detailToolbar);
+        toolbar = findViewById(R.id.detailToolbar);
         toolbar.setTitle(recipeName);
         setSupportActionBar(toolbar);
 
         setIngredientsAttributes();
         setStepsAttributes();
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
 
         CustomAdapter adapter = new CustomAdapter(getSupportFragmentManager());
 
@@ -97,7 +97,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
                 mMeasurement = jsonIngredients.getJSONObject(counter).getString("measure");
                 mIngredientName = jsonIngredients.getJSONObject(counter).getString("ingredient");
 
-                ingredientsList.add(new IngredientsInfo(mQuantity, mMeasurement, mIngredientName));
+                ingredientsList.add(new Ingredient(mQuantity, mMeasurement, mIngredientName));
                 counter++;
             }
         } catch (JSONException e) {
@@ -116,7 +116,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
                 mVideoUrl = jsonSteps.getJSONObject(counter).getString("videoURL");
                 mThumbnailUrl = jsonSteps.getJSONObject(counter).getString("thumbnailURL");
 
-                stepsList.add(new StepsInfo(mShortDescription, mDescription, mVideoUrl, mThumbnailUrl));
+//                stepsList.add(new Step(mShortDescription, mDescription, mVideoUrl, mThumbnailUrl));
                 counter++;
             }
         } catch (JSONException e) {
@@ -152,11 +152,11 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
 
         ContentValues cv = new ContentValues();
 
-        for (IngredientsInfo info : ingredientsList){
+        for (Ingredient info : ingredientsList){
             cv.clear();
             cv.put(CustomContract.Columns.QUANTITY, info.getQuantity());
-            cv.put(CustomContract.Columns.MEASURE, info.getMeasurement());
-            cv.put(CustomContract.Columns.INGREDIENT, info.getIngredient_name());
+            cv.put(CustomContract.Columns.MEASURE, info.getMeasure());
+            cv.put(CustomContract.Columns.INGREDIENT, info.getIngredient());
 
             getApplicationContext().getContentResolver().insert(uri, cv);
         }

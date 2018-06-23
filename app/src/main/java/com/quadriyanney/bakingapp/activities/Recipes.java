@@ -7,23 +7,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+
 import android.widget.LinearLayout;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.quadriyanney.bakingapp.Controller;
+
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.RecipeIdlingResource;
-import com.quadriyanney.bakingapp.adapters.RecipesAdapter;
-import com.quadriyanney.bakingapp.data.RecipesInfo;
+import com.quadriyanney.bakingapp.ui.recipesList.RecipesListAdapter;
+import com.quadriyanney.bakingapp.data.model.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,12 +27,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Recipes extends AppCompatActivity implements RecipesAdapter.ListItemClickListener {
+public class Recipes extends AppCompatActivity implements RecipesListAdapter.ListItemClickListener {
 
     String urlToQuery, jsonTag = "json_tag", recipeName, recipeIngredients, recipeSteps, recipeImage;
     int iterator = 0;
-    List<RecipesInfo> recipesInfoList;
-    RecipesAdapter adapter;
+    List<Recipe> recipesInfoList;
+    RecipesListAdapter adapter;
     LinearLayout root_layout;
     RecyclerView recyclerView;
     JSONArray jsonArray;
@@ -48,11 +44,11 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
 
-        root_layout = (LinearLayout) findViewById(R.id.root_layout);
+        root_layout = findViewById(R.id.root_layout);
         recipesInfoList = new ArrayList<>();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        recyclerView = findViewById(R.id.recyclerView);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -62,7 +58,7 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
             try {
                 JSONArray array = new JSONArray(savedInstanceState.getString("list"));
                 toList(array);
-                adapter = new RecipesAdapter(this, recipesInfoList, this);
+//                adapter = new RecipesListAdapter(this, recipesInfoList, this);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 jsonArray = array;
@@ -80,12 +76,12 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
     }
 
     @Override
-    public void onListItemClick(int clicked) {
+    public void onRecipeClicked(int clicked) {
         Intent intent = new Intent(Recipes.this, RecipeDetails.class);
-        intent.putExtra("recipe", recipesInfoList.get(clicked).getName());
-        intent.putExtra("ingredients", recipesInfoList.get(clicked).getIngredientsList());
-        intent.putExtra("steps", recipesInfoList.get(clicked).getStepsList());
-        startActivity(intent);
+//        intent.putExtra("recipe", recipesInfoList.get(clicked).getName());
+//        intent.putExtra("ingredients", recipesInfoList.get(clicked).getIngredients());
+//        intent.putExtra("steps", recipesInfoList.get(clicked).getSteps());
+//        startActivity(intent);
     }
 
     public void  setUp(){
@@ -96,35 +92,35 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        adapter = new RecipesAdapter(this, recipesInfoList, this);
+//        adapter = new RecipesListAdapter(this, recipesInfoList, this);
         recyclerView.setAdapter(adapter);
-
-        JsonArrayRequest request = new JsonArrayRequest(urlToQuery,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        progressDialog.hide();
-                        jsonArray = response;
-                        toList(response);
-                        adapter.notifyDataSetChanged();
-                        setRecipeIdlingResource(true);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        setRecipeIdlingResource(false);
-                        progressDialog.hide();
-                        Snackbar.make(root_layout, "Poor/No Connection", Snackbar.LENGTH_INDEFINITE).setAction(
-                                "Refresh", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        setUp();
-                                    }
-                                }).show();
-                    }
-                });
-        Controller.getInstance().addToRequestQueue(request, jsonTag);
+//
+//        JsonArrayRequest request = new JsonArrayRequest(urlToQuery,
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        progressDialog.hide();
+//                        jsonArray = response;
+//                        toList(response);
+//                        adapter.notifyDataSetChanged();
+//                        setRecipeIdlingResource(true);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        setRecipeIdlingResource(false);
+//                        progressDialog.hide();
+//                        Snackbar.make(root_layout, "Poor/No Connection", Snackbar.LENGTH_INDEFINITE).setAction(
+//                                "Refresh", new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View view) {
+//                                        setUp();
+//                                    }
+//                                }).show();
+//                    }
+//                });
+//        Controller.getInstance().addToRequestQueue(request, jsonTag);
     }
 
     @Override
@@ -141,7 +137,7 @@ public class Recipes extends AppCompatActivity implements RecipesAdapter.ListIte
                 recipeIngredients = array.getJSONObject(iterator).getJSONArray("ingredients").toString();
                 recipeSteps = array.getJSONObject(iterator).getJSONArray("steps").toString();
 
-                recipesInfoList.add(new RecipesInfo(recipeName, recipeImage, recipeIngredients, recipeSteps));
+//                recipesInfoList.add(new Recipe(recipeName, recipeImage, recipeIngredients, recipeSteps));
                 iterator++;
             }
         } catch (JSONException e) {

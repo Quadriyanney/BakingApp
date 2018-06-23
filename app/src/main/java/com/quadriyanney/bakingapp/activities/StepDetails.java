@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.quadriyanney.bakingapp.R;
-import com.quadriyanney.bakingapp.data.StepsInfo;
+import com.quadriyanney.bakingapp.data.model.Step;
 import com.quadriyanney.bakingapp.fragments.StepDetailsFragment;
 
 import java.util.ArrayList;
 
 public class StepDetails extends AppCompatActivity {
 
-    ArrayList<StepsInfo> stepsList = new ArrayList<>();
+    ArrayList<Step> stepsList = new ArrayList<>();
     int position;
     Button nextButton, previousButton;
 

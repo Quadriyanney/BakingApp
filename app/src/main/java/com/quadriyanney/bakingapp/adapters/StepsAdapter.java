@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.quadriyanney.bakingapp.R;
-import com.quadriyanney.bakingapp.data.StepsInfo;
+import com.quadriyanney.bakingapp.data.model.Step;
 
 import java.util.List;
 
@@ -18,14 +18,14 @@ import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
 
-    private List<StepsInfo> stepsList;
+    private List<Step> stepsList;
     private StepItemClickListener listener;
 
     public interface StepItemClickListener{
         void onStepItemClicked(int clicked);
     }
 
-    public StepsAdapter(List<StepsInfo> stepsList, StepItemClickListener listener){
+    public StepsAdapter(List<Step> stepsList, StepItemClickListener listener){
         this.stepsList = stepsList;
         this.listener = listener;
     }

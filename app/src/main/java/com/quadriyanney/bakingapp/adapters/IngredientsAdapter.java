@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.quadriyanney.bakingapp.data.IngredientsInfo;
+import com.quadriyanney.bakingapp.data.model.Ingredient;
 import com.quadriyanney.bakingapp.R;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder>{
 
-    private List<IngredientsInfo> ingredientsList;
+    private List<Ingredient> ingredientsList;
 
-    public IngredientsAdapter(List<IngredientsInfo> ingredientsList){
+    public IngredientsAdapter(List<Ingredient> ingredientsList){
         this.ingredientsList = ingredientsList;
     }
 
@@ -31,9 +31,9 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.ingredientName.setText(ingredientsList.get(position).getIngredient_name());
+        holder.ingredientName.setText(ingredientsList.get(position).getIngredient());
         String s = "measurement : " + (String.valueOf(ingredientsList.get(position).getQuantity()) + " " +
-                ingredientsList.get(position).getMeasurement());
+                ingredientsList.get(position).getMeasure());
         holder.ingredientMeasurement.setText(s);
     }
 
@@ -48,8 +48,8 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
         ViewHolder(View itemView) {
             super(itemView);
-            ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
-            ingredientMeasurement = (TextView) itemView.findViewById(R.id.measurement);
+//            ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
+//            ingredientMeasurement = (TextView) itemView.findViewById(R.id.measurement);
         }
     }
 }
