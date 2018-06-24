@@ -5,6 +5,7 @@ import com.quadriyanney.bakingapp.data.remote.ApiService;
 import com.quadriyanney.bakingapp.ui.base.BasePresenter;
 import com.quadriyanney.bakingapp.util.NetworkUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ public class RecipesListPresenter implements BasePresenter<RecipesListView> {
     private ApiService apiService;
     private RecipesListView recipesListView;
     private NetworkUtil networkUtil;
-    private List<Recipe> recipes;
+    private ArrayList<Recipe> recipes;
     private CompositeDisposable compositeDisposable;
 
     @Inject
@@ -48,9 +49,9 @@ public class RecipesListPresenter implements BasePresenter<RecipesListView> {
             compositeDisposable.add(apiService.getRecipes()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<List<Recipe>>() {
+                    .subscribeWith(new DisposableObserver<ArrayList<Recipe>>() {
                         @Override
-                        public void onNext(List<Recipe> value) {
+                        public void onNext(ArrayList<Recipe> value) {
                             recipes = value;
                             recipesListView.showRecipesList(recipes);
                         }
@@ -80,6 +81,7 @@ public class RecipesListPresenter implements BasePresenter<RecipesListView> {
     @Override
     public void detachView() {
         compositeDisposable.clear();
+        this.recipesListView = null;
     }
 
 }

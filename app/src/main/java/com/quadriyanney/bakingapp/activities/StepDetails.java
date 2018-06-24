@@ -23,8 +23,8 @@ public class StepDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_details);
 
-        nextButton = (Button) findViewById(R.id.nextButton);
-        previousButton = (Button) findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        previousButton = findViewById(R.id.previousButton);
 
         if (getIntent().getExtras().getParcelableArrayList("steps_list") != null) {
             stepsList = getIntent().getExtras().getParcelableArrayList("steps_list");

@@ -4,26 +4,40 @@ package com.quadriyanney.bakingapp.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Recipe implements Parcelable {
 
     private int id, servings;
     private String name, image;
-    private List<Ingredient> ingredients;
-    private List<Step> steps;
+    private ArrayList<Ingredient> ingredients;
+    private ArrayList<Step> steps;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, int servings,
-                  String image) {
-        this.id = id;
-        this.name = name;
-        this.ingredients = ingredients;
-        this.steps = steps;
-        this.servings = servings;
-        this.image = image;
+    public int getId() {
+        return id;
     }
 
-    private Recipe(Parcel in) {
+    public int getServings() {
+        return servings;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public ArrayList<Step> getSteps() {
+        return steps;
+    }
+
+    protected Recipe(Parcel in) {
         id = in.readInt();
         servings = in.readInt();
         name = in.readString();
@@ -43,30 +57,6 @@ public class Recipe implements Parcelable {
             return new Recipe[size];
         }
     };
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public List getSteps() {
-        return steps;
-    }
-
-    public int getServings() {
-        return servings;
-    }
-
-    public String getImage() {
-        return image;
-    }
 
     @Override
     public int describeContents() {

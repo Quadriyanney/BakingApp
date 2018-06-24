@@ -6,4 +6,6 @@ public final class Constants {
             = "No internet connection, connect to the internet and try again.";
     public static final String CANT_GET_RECIPES = "Error fetching recipes, please try again.";
     public static final String RECIPE_EXTRA = "recipe_extra";
+    public static final String STEPS = "Steps";
+    public static final String INGREDIENTS = "Ingredients";
 }

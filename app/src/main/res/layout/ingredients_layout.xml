@@ -6,7 +6,7 @@
     android:id="@+id/ingLayout"
     android:orientation="vertical"
     android:background="@color/colorWhite"
-    tools:context="com.quadriyanney.bakingapp.fragments.IngredientsFragment">
+    tools:context="com.quadriyanney.bakingapp.ui.recipeIngredientsList.RecipeIngredientsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

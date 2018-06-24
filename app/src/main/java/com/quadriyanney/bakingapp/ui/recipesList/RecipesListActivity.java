@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -13,10 +14,12 @@ import android.widget.Toast;
 
 import com.quadriyanney.bakingapp.App;
 import com.quadriyanney.bakingapp.R;
+import com.quadriyanney.bakingapp.data.model.Ingredient;
 import com.quadriyanney.bakingapp.data.model.Recipe;
 import com.quadriyanney.bakingapp.ui.recipeDetails.RecipeDetailsActivity;
 import com.quadriyanney.bakingapp.util.ImageUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,9 +43,10 @@ public class RecipesListActivity extends AppCompatActivity implements RecipesLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes_list);
+        toolbar = findViewById(R.id.toolbar_recipes_list);
+        setSupportActionBar(toolbar);
 
         App.getDependencyComponent().inject(this);
-
         recipesListPresenter.attachView(this);
     }
 
@@ -58,9 +62,6 @@ public class RecipesListActivity extends AppCompatActivity implements RecipesLis
 
         progressBar = findViewById(R.id.progress_recipes_list);
 
-        toolbar = findViewById(R.id.toolbar_recipes_list);
-        setSupportActionBar(toolbar);
-
         recipesRecyclerView = findViewById(R.id.recycler_view_recipes);
         recipesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -68,7 +69,7 @@ public class RecipesListActivity extends AppCompatActivity implements RecipesLis
     }
 
     @Override
-    public void showRecipesList(List<Recipe> recipes) {
+    public void showRecipesList(ArrayList<Recipe> recipes) {
         recipesListAdapter = new RecipesListAdapter(imageUtil, recipes, this);
         recipesRecyclerView.setAdapter(recipesListAdapter);
         recipesRecyclerView.setVisibility(View.VISIBLE);
@@ -76,11 +77,8 @@ public class RecipesListActivity extends AppCompatActivity implements RecipesLis
 
     @Override
     public void showRecipeDetails(Recipe recipe) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(RECIPE_EXTRA, recipe);
-
         Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        intent.putExtras(bundle);
+        intent.putExtra(RECIPE_EXTRA, recipe);
         startActivity(intent);
     }
 
@@ -102,5 +100,11 @@ public class RecipesListActivity extends AppCompatActivity implements RecipesLis
     @Override
     public void onRecipeClicked(int position) {
         recipesListPresenter.onRecipeClicked(position);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        recipesListPresenter.detachView();
     }
 }

@@ -79,8 +79,8 @@ public class Recipes extends AppCompatActivity implements RecipesListAdapter.Lis
     public void onRecipeClicked(int clicked) {
         Intent intent = new Intent(Recipes.this, RecipeDetails.class);
 //        intent.putExtra("recipe", recipesInfoList.get(clicked).getName());
-//        intent.putExtra("ingredients", recipesInfoList.get(clicked).getIngredients());
-//        intent.putExtra("steps", recipesInfoList.get(clicked).getSteps());
+//        intent.putExtra("ingredients", recipesInfoList.get(clicked).setIngredients());
+//        intent.putExtra("steps", recipesInfoList.get(clicked).setSteps());
 //        startActivity(intent);
     }
 

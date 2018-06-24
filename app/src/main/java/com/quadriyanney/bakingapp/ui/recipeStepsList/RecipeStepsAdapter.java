@@ -1,5 +1,6 @@
-package com.quadriyanney.bakingapp.adapters;
+package com.quadriyanney.bakingapp.ui.recipeStepsList;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,34 +11,33 @@ import android.widget.TextView;
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Step;
 
-import java.util.List;
+import java.util.ArrayList;
 
-/**
- * Created by quadriy on 6/25/17.
- */
 
-public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
+public class RecipeStepsAdapter extends RecyclerView.Adapter<RecipeStepsAdapter.ViewHolder>{
 
-    private List<Step> stepsList;
+    private ArrayList<Step> stepsList;
     private StepItemClickListener listener;
 
     public interface StepItemClickListener{
         void onStepItemClicked(int clicked);
     }
 
-    public StepsAdapter(List<Step> stepsList, StepItemClickListener listener){
-        this.stepsList = stepsList;
+    public RecipeStepsAdapter(ArrayList<Step> steps, StepItemClickListener listener){
+        this.stepsList = steps;
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public StepsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.steps_list_item, parent, false);
-        return new ViewHolder(view);
+    public RecipeStepsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                            int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.steps_list_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(StepsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecipeStepsAdapter.ViewHolder holder, int position) {
         holder.stepName.setText(stepsList.get(position).getShortDescription());
         String video = stepsList.get(position).getVideoUrl();
         String image = stepsList.get(position).getThumbnailUrl();
@@ -70,8 +70,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>{
 
         ViewHolder(View itemView) {
             super(itemView);
-            stepName = (TextView) itemView.findViewById(R.id.step_name);
-            stepDetails = (TextView) itemView.findViewById(R.id.details);
+            stepName = itemView.findViewById(R.id.step_name);
+            stepDetails = itemView.findViewById(R.id.details);
             itemView.setOnClickListener(this);
         }
 

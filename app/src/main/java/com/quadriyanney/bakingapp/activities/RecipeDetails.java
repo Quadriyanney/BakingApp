@@ -24,9 +24,9 @@ import android.widget.TextView;
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Ingredient;
 import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.fragments.IngredientsFragment;
+import com.quadriyanney.bakingapp.ui.recipeIngredientsList.RecipeIngredientsFragment;
 import com.quadriyanney.bakingapp.fragments.StepDetailsFragment;
-import com.quadriyanney.bakingapp.fragments.StepsFragment;
+import com.quadriyanney.bakingapp.ui.recipeStepsList.RecipeStepsFragment;
 import com.quadriyanney.bakingapp.widget.CustomContract;
 import com.quadriyanney.bakingapp.widget.WidgetProvider;
 
@@ -35,7 +35,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class RecipeDetails extends AppCompatActivity implements StepsFragment.ClickListener {
+public class RecipeDetails extends AppCompatActivity implements RecipeStepsFragment.ClickListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -97,7 +97,7 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
                 mMeasurement = jsonIngredients.getJSONObject(counter).getString("measure");
                 mIngredientName = jsonIngredients.getJSONObject(counter).getString("ingredient");
 
-                ingredientsList.add(new Ingredient(mQuantity, mMeasurement, mIngredientName));
+//                ingredientsList.add(new Ingredient(mQuantity, mMeasurement, mIngredientName));
                 counter++;
             }
         } catch (JSONException e) {
@@ -204,13 +204,13 @@ public class RecipeDetails extends AppCompatActivity implements StepsFragment.Cl
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    StepsFragment stepsFragment = new StepsFragment();
-                    stepsFragment.getStepsList(stepsList);
-                    return stepsFragment;
+                    RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
+                    recipeStepsFragment.setSteps(stepsList);
+                    return recipeStepsFragment;
                 case 1:
-                    IngredientsFragment ingredientsFragment = new IngredientsFragment();
-                    ingredientsFragment.getIngredientsList(ingredientsList);
-                    return ingredientsFragment;
+                    RecipeIngredientsFragment recipeIngredientsFragment = new RecipeIngredientsFragment();
+                    recipeIngredientsFragment.setIngredients(ingredientsList);
+                    return recipeIngredientsFragment;
                 default:
                     return null;
             }

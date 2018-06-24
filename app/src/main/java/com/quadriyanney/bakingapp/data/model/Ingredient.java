@@ -9,14 +9,20 @@ public class Ingredient implements Parcelable{
     private double quantity;
     private String measure, ingredient;
 
-    public Ingredient(double quantity, String measure, String ingredient){
-        this.quantity = quantity;
-        this.measure = measure;
-        this.ingredient = ingredient;
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public String getIngredient() {
+        return ingredient;
     }
 
     private Ingredient(Parcel in) {
-        quantity = in.readInt();
+        quantity = in.readDouble();
         measure = in.readString();
         ingredient = in.readString();
     }
@@ -32,18 +38,6 @@ public class Ingredient implements Parcelable{
             return new Ingredient[size];
         }
     };
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public String getMeasure() {
-        return measure;
-    }
-
-    public String getIngredient() {
-        return ingredient;
-    }
 
     @Override
     public int describeContents() {

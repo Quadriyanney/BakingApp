@@ -9,12 +9,24 @@ public class Step implements Parcelable {
     private int id;
     private String shortDescription, description, videoUrl, thumbnailUrl;
 
-    public Step(int id, String shortDescription, String description, String videoUrl,
-                String thumbnailUrl){
-        this.shortDescription = shortDescription;
-        this.description = description;
-        this.videoUrl = videoUrl;
-        this.thumbnailUrl = thumbnailUrl;
+    public int getId() {
+        return id;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
     private Step(Parcel in) {
@@ -36,26 +48,6 @@ public class Step implements Parcelable {
             return new Step[size];
         }
     };
-
-    public int getId() {
-        return id;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getVideoUrl() {
-        return videoUrl;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
 
     @Override
     public int describeContents() {
