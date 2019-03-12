@@ -11,7 +11,7 @@ public class App extends Application {
 
     private static DependencyComponent dependencyComponent;
 
-    public static DependencyComponent getDependencyComponent () {
+    public static DependencyComponent getDependencyComponent() {
         return dependencyComponent;
     }
 

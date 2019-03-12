@@ -1,9 +1,10 @@
-package com.quadriyanney.bakingapp.fragments;
+package com.quadriyanney.bakingapp.ui.stepDetails;
 
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -31,10 +32,15 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.quadriyanney.bakingapp.R;
+import com.quadriyanney.bakingapp.data.model.Step;
+import com.quadriyanney.bakingapp.helper.Constants;
 
 public class StepDetailsFragment extends Fragment {
 
-    String mDescription, mVideoUrl, mThumbnailUrl;
+    public static final String TAG = StepDetailsFragment.class.getSimpleName();
+    private static final String ARGUMENT_STEP = "ARGUMENT_STEP";
+
+    Step step;
     ImageView thumbnail;
     long currentPosition = 0;
     TextView description;
@@ -42,16 +48,25 @@ public class StepDetailsFragment extends Fragment {
     SimpleExoPlayer player;
     boolean isTwoPane;
 
-    public StepDetailsFragment() {}
+    public StepDetailsFragment() {
+    }
+
+    public static StepDetailsFragment newInstance(Step step) {
+        StepDetailsFragment fragment = new StepDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARGUMENT_STEP, step);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getLong("player_position", 0);
-            mDescription = savedInstanceState.getString("desc");
-            mVideoUrl = savedInstanceState.getString("vid");
-            mThumbnailUrl = savedInstanceState.getString("thumb");
+            step = savedInstanceState.getParcelable(Constants.EXTRA_STEP);
+        } else {
+            step = getArguments().getParcelable(ARGUMENT_STEP);
         }
     }
 
@@ -59,31 +74,31 @@ public class StepDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
         if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
-        playerView = (SimpleExoPlayerView) view.findViewById(R.id.videoPlayer);
-        thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-        description = (TextView) view.findViewById(R.id.description);
+        playerView = view.findViewById(R.id.videoPlayer);
+        thumbnail = view.findViewById(R.id.ivThumbnail);
+        description = view.findViewById(R.id.tvDescription);
 
-        if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            if (!TextUtils.isEmpty(mVideoUrl)){
+        if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (!TextUtils.isEmpty(step.getVideoURL())) {
                 playerView.setVisibility(View.VISIBLE);
                 playVideo();
             }
-            if (!TextUtils.isEmpty(mThumbnailUrl)){
-                Glide.with(getContext()).asBitmap().load(mThumbnailUrl).into(thumbnail);
+            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                Glide.with(getContext()).asBitmap().load(step.getThumbnailURL()).into(thumbnail);
                 thumbnail.setVisibility(View.VISIBLE);
             }
-            if (description != null) description.setText(mDescription);
+            if (description != null) description.setText(step.getDescription());
 
         } else {
-            if (!TextUtils.isEmpty(mVideoUrl)){
+            if (!TextUtils.isEmpty(step.getVideoURL())) {
                 playerView.setVisibility(View.VISIBLE);
                 playVideo();
             } else {
-                if (!TextUtils.isEmpty(mThumbnailUrl)){
-                    Glide.with(getActivity()).asBitmap().load(mThumbnailUrl).into(thumbnail);
+                if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                    Glide.with(getActivity()).asBitmap().load(step.getThumbnailURL()).into(thumbnail);
                     thumbnail.setVisibility(View.VISIBLE);
                 }
-                if (description != null) description.setText(mDescription);
+                if (description != null) description.setText(step.getDescription());
             }
 
         }
@@ -92,50 +107,42 @@ public class StepDetailsFragment extends Fragment {
 
     private void playVideo() {
         if (player == null) {
-        Handler handler = new Handler();
-        BandwidthMeter meter = new DefaultBandwidthMeter();
-        TrackSelection.Factory selection = new AdaptiveTrackSelection.Factory(meter);
-        TrackSelector selector = new DefaultTrackSelector(selection);
+            Handler handler = new Handler();
+            BandwidthMeter meter = new DefaultBandwidthMeter();
+            TrackSelection.Factory selection = new AdaptiveTrackSelection.Factory(meter);
+            TrackSelector selector = new DefaultTrackSelector(selection);
 
-        player = ExoPlayerFactory.newSimpleInstance(getActivity(), selector);
-        playerView.setPlayer(player);
+            player = ExoPlayerFactory.newSimpleInstance(getActivity(), selector);
+            playerView.setPlayer(player);
 
-        DefaultBandwidthMeter widthMeter = new DefaultBandwidthMeter();
-        DataSource.Factory dataSource = new DefaultDataSourceFactory(getActivity(),
-                Util.getUserAgent(getActivity(), "BakingApp"), widthMeter);
+            DefaultBandwidthMeter widthMeter = new DefaultBandwidthMeter();
+            DataSource.Factory dataSource = new DefaultDataSourceFactory(getActivity(),
+                    Util.getUserAgent(getActivity(), "BakingApp"), widthMeter);
 
-        ExtractorsFactory factory = new DefaultExtractorsFactory();
-        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mVideoUrl), dataSource,
-                factory, handler, null);
+            ExtractorsFactory factory = new DefaultExtractorsFactory();
+            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(step.getVideoURL()), dataSource,
+                    factory, handler, null);
 
-        player.prepare(mediaSource);
+            player.prepare(mediaSource);
 
-        if (currentPosition != 0) player.seekTo(currentPosition);
-        player.setPlayWhenReady(true);
+            if (currentPosition != 0) player.seekTo(currentPosition);
+            player.setPlayWhenReady(true);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (player != null) {
             outState.putLong("player_position", player.getCurrentPosition());
         }
-        outState.putString("desc", mDescription);
-        outState.putString("vid", mVideoUrl);
-        outState.putString("thumb", mThumbnailUrl);
-    }
-
-    public void getDetails(String description, String videoUrl, String thumbnailUrl){
-        mDescription = description;
-        mVideoUrl = videoUrl;
-        mThumbnailUrl = thumbnailUrl;
+        outState.putParcelable(Constants.EXTRA_STEP, step);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-            playVideo();
+        playVideo();
     }
 
     @Override
@@ -150,7 +157,7 @@ public class StepDetailsFragment extends Fragment {
         releasePlayer();
     }
 
-    public void releasePlayer(){
+    public void releasePlayer() {
         if (player != null) {
             player.stop();
             player.release();

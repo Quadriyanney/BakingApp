@@ -13,5 +13,6 @@ import dagger.Component;
 @Component(modules = {AppModule.class, DependencyModule.class})
 public interface DependencyComponent {
     void inject(RecipesListActivity recipesListActivity);
+
     void inject(RecipeDetailsActivity recipeDetailsActivity);
 }

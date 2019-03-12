@@ -23,5 +23,4 @@
         android:textColor="@color/colorGrey"
         android:textSize="@dimen/dimen_15"
         android:textStyle="italic"/>
-        
 </LinearLayout>

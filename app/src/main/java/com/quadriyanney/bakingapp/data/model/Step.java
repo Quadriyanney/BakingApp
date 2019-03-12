@@ -3,11 +3,29 @@ package com.quadriyanney.bakingapp.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Step implements Parcelable {
 
+    public static final Creator<Step> CREATOR = new Creator<Step>() {
+        @Override
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
+        }
+
+        @Override
+        public Step[] newArray(int size) {
+            return new Step[size];
+        }
+    };
     private int id;
-    private String shortDescription, description, videoUrl, thumbnailUrl;
+    private String shortDescription, description, videoURL, thumbnailURL;
+
+    private Step(Parcel in) {
+        id = in.readInt();
+        shortDescription = in.readString();
+        description = in.readString();
+        videoURL = in.readString();
+        thumbnailURL = in.readString();
+    }
 
     public int getId() {
         return id;
@@ -21,33 +39,13 @@ public class Step implements Parcelable {
         return description;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getVideoURL() {
+        return videoURL;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getThumbnailURL() {
+        return thumbnailURL;
     }
-
-    private Step(Parcel in) {
-        id = in.readInt();
-        shortDescription = in.readString();
-        description = in.readString();
-        videoUrl = in.readString();
-        thumbnailUrl = in.readString();
-    }
-
-    public static final Creator<Step> CREATOR = new Creator<Step>() {
-        @Override
-        public Step createFromParcel(Parcel in) {
-            return new Step(in);
-        }
-
-        @Override
-        public Step[] newArray(int size) {
-            return new Step[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -59,7 +57,7 @@ public class Step implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(shortDescription);
         parcel.writeString(description);
-        parcel.writeString(videoUrl);
-        parcel.writeString(thumbnailUrl);
+        parcel.writeString(videoURL);
+        parcel.writeString(thumbnailURL);
     }
 }

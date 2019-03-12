@@ -8,10 +8,30 @@ import java.util.ArrayList;
 
 public class Recipe implements Parcelable {
 
+    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel in) {
+            return new Recipe(in);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
     private int id, servings;
     private String name, image;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
+
+    protected Recipe(Parcel in) {
+        id = in.readInt();
+        servings = in.readInt();
+        name = in.readString();
+        image = in.readString();
+        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
+    }
 
     public int getId() {
         return id;
@@ -36,27 +56,6 @@ public class Recipe implements Parcelable {
     public ArrayList<Step> getSteps() {
         return steps;
     }
-
-    protected Recipe(Parcel in) {
-        id = in.readInt();
-        servings = in.readInt();
-        name = in.readString();
-        image = in.readString();
-        ingredients = in.createTypedArrayList(Ingredient.CREATOR);
-        steps = in.createTypedArrayList(Step.CREATOR);
-    }
-
-    public static final Creator<Recipe> CREATOR = new Creator<Recipe>() {
-        @Override
-        public Recipe createFromParcel(Parcel in) {
-            return new Recipe(in);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 
     @Override
     public int describeContents() {

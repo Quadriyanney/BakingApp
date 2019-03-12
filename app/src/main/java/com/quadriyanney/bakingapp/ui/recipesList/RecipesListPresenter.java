@@ -6,7 +6,6 @@ import com.quadriyanney.bakingapp.ui.base.BasePresenter;
 import com.quadriyanney.bakingapp.util.NetworkUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,7 +32,6 @@ public class RecipesListPresenter implements BasePresenter<RecipesListView> {
         this.networkUtil = networkUtil;
         this.compositeDisposable = compositeDisposable;
     }
-
 
     @Override
     public void attachView(RecipesListView recipesListView) {

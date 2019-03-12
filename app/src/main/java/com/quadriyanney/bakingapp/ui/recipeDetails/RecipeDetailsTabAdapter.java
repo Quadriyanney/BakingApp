@@ -4,13 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.quadriyanney.bakingapp.data.model.Ingredient;
 import com.quadriyanney.bakingapp.data.model.Recipe;
-import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.ui.recipeIngredientsList.RecipeIngredientsFragment;
-import com.quadriyanney.bakingapp.ui.recipeStepsList.RecipeStepsFragment;
-
-import java.util.ArrayList;
+import com.quadriyanney.bakingapp.ui.ingredientsList.IngredientsFragment;
+import com.quadriyanney.bakingapp.ui.stepsList.StepsListFragment;
 
 import static com.quadriyanney.bakingapp.helper.Constants.INGREDIENTS;
 import static com.quadriyanney.bakingapp.helper.Constants.STEPS;
@@ -19,18 +15,18 @@ public class RecipeDetailsTabAdapter extends FragmentStatePagerAdapter {
 
     private Recipe recipe;
 
-    RecipeDetailsTabAdapter(FragmentManager fragmentManager, Recipe recipe){
+    RecipeDetailsTabAdapter(FragmentManager fragmentManager, Recipe recipe) {
         super(fragmentManager);
         this.recipe = recipe;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch(position){
+        switch (position) {
             case 0:
-                return RecipeStepsFragment.newInstance(recipe.getSteps());
+                return StepsListFragment.newInstance(recipe.getSteps());
             case 1:
-                return RecipeIngredientsFragment.newInstance(recipe.getIngredients());
+                return IngredientsFragment.newInstance(recipe.getIngredients());
             default:
                 return null;
         }

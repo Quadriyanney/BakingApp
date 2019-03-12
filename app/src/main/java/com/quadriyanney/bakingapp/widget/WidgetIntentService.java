@@ -29,13 +29,13 @@ public class WidgetIntentService extends RemoteViewsService {
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-        private void initCursor(){
+        private void initCursor() {
             if (cursor != null) {
                 cursor.close();
             }
 
             Uri uri = CustomContract.CONTENT_URI;
-            cursor = mContext.getContentResolver().query(uri,null,null,null,null);
+            cursor = mContext.getContentResolver().query(uri, null, null, null, null);
         }
 
         @Override
@@ -63,7 +63,7 @@ public class WidgetIntentService extends RemoteViewsService {
 
             RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
 
-            if (cursor.getCount()!=0) {
+            if (cursor.getCount() != 0) {
                 cursor.moveToPosition(position);
 
                 rv.setTextViewText(R.id.widget_ingredient_name, cursor.getString(3));

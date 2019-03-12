@@ -2,28 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
     android:orientation="vertical"
+    android:padding="@dimen/dimen_8"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
+        android:id="@+id/tvStepDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/dimen_15"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:id="@+id/ingredient"
-        tools:text="Bean Cake"/>
+        tools:text="Pour it in a bowl"/>
 
     <TextView
+        android:id="@+id/tvClickToViewDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/measure"
-        android:textSize="@dimen/dimen_15"
-        android:textColor="@color/colorBlack"
-        tools:text="2 Cups of jsbdhkjdbl"
+        android:textSize="16sp"
+        tools:text="Click to see details and "
         android:layout_marginStart="@dimen/dimen_5"
         android:layout_marginLeft="@dimen/dimen_5" />
-
-    <include layout="@layout/item_seperator_line"/>
 </LinearLayout>

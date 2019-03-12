@@ -29,15 +29,11 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         this.recipes = recipes;
     }
 
-    public interface ListItemClickListener{
-        void onRecipeClicked(int position);
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recipes_list_item, parent, false));
+                .inflate(R.layout.item_recipe, parent, false));
     }
 
     @Override
@@ -56,7 +52,11 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         return recipes.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public interface ListItemClickListener {
+        void onRecipeClicked(int position);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView recipeName;
         ConstraintLayout itemLayout;
@@ -64,9 +64,9 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
 
         ViewHolder(View itemView) {
             super(itemView);
-            recipeName = itemView.findViewById(R.id.text_view_recipe_name);
+            recipeName = itemView.findViewById(R.id.tvRecipeName);
             itemLayout = itemView.findViewById(R.id.layout_recipe_item);
-            recipeImage = itemView.findViewById(R.id.image_view_recipe_image);
+            recipeImage = itemView.findViewById(R.id.ivRecipeImage);
             itemView.setOnClickListener(this);
         }
 

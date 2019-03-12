@@ -14,7 +14,7 @@ import android.widget.RemoteViews;
 
 import com.quadriyanney.bakingapp.R;
 
-public class WidgetProvider extends AppWidgetProvider{
+public class WidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
@@ -40,12 +40,14 @@ public class WidgetProvider extends AppWidgetProvider{
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-        super.onUpdate(context,appWidgetManager,appWidgetIds);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
-    public void onEnabled(Context context) {}
+    public void onEnabled(Context context) {
+    }
 
     @Override
-    public void onDisabled(Context context) {}
+    public void onDisabled(Context context) {
+    }
 }

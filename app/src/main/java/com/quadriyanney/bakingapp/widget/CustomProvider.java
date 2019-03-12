@@ -11,15 +11,16 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-public class CustomProvider extends ContentProvider{
+public class CustomProvider extends ContentProvider {
 
-    private SQLiteDatabase db;
     public static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         uriMatcher.addURI(CustomContract.AUTHORITY, CustomContract.TABLE, CustomContract.INGREDIENT_LIST);
-        uriMatcher.addURI(CustomContract.AUTHORITY, CustomContract.TABLE+"/#", CustomContract.INGREDIENT_ITEM);
+        uriMatcher.addURI(CustomContract.AUTHORITY, CustomContract.TABLE + "/#", CustomContract.INGREDIENT_ITEM);
     }
+
+    private SQLiteDatabase db;
 
     @Override
     public boolean onCreate() {
@@ -105,7 +106,7 @@ public class CustomProvider extends ContentProvider{
             case CustomContract.INGREDIENT_ITEM:
                 String where = CustomContract.Columns._ID + " = " + uri.getLastPathSegment();
                 if (!selection.isEmpty()) {
-                    where += " AND "+selection;
+                    where += " AND " + selection;
                 }
 
                 deleted = db.delete(CustomContract.TABLE, where, selectionArgs);

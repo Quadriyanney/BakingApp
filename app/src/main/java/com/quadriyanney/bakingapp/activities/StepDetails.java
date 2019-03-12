@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.fragments.StepDetailsFragment;
+import com.quadriyanney.bakingapp.ui.stepDetails.StepDetailsFragment;
 
 import java.util.ArrayList;
 
@@ -22,9 +22,9 @@ public class StepDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_details);
-
-        nextButton = findViewById(R.id.nextButton);
-        previousButton = findViewById(R.id.previousButton);
+//
+//        nextButton = findViewById(R.id.nextButton);
+//        previousButton = findViewById(R.id.previousButton);
 
         if (getIntent().getExtras().getParcelableArrayList("steps_list") != null) {
             stepsList = getIntent().getExtras().getParcelableArrayList("steps_list");
@@ -40,27 +40,23 @@ public class StepDetails extends AppCompatActivity {
         }
     }
 
-    public void displayDetails(){
+    public void displayDetails() {
         StepDetailsFragment fragment = new StepDetailsFragment();
-        fragment.getDetails(stepsList.get(position).getDescription(),
-                stepsList.get(position).getVideoUrl(),
-                stepsList.get(position).getThumbnailUrl());
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment, "details").commit();
     }
 
     public void Navigate(View view) {
-        if (view.getId() == R.id.previousButton) {
-            position = position - 1;
-            positionChecker();
-            displayDetails();
-        }
-        else if (view.getId() == R.id.nextButton) {
-            position = position + 1;
-            positionChecker();
-            displayDetails();
-        }
+//        if (view.getId() == R.id.previousButton) {
+//            position = position - 1;
+//            positionChecker();
+//            displayDetails();
+//        } else if (view.getId() == R.id.nextButton) {
+//            position = position + 1;
+//            positionChecker();
+//            displayDetails();
+//        }
     }
 
     public void positionChecker() {

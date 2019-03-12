@@ -12,14 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.widget.LinearLayout;
-
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.RecipeIdlingResource;
-import com.quadriyanney.bakingapp.ui.recipesList.RecipesListAdapter;
 import com.quadriyanney.bakingapp.data.model.Recipe;
+import com.quadriyanney.bakingapp.ui.recipesList.RecipesListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +35,8 @@ public class Recipes extends AppCompatActivity implements RecipesListAdapter.Lis
     RecyclerView recyclerView;
     JSONArray jsonArray;
 
-    @Nullable private RecipeIdlingResource recipeIdlingResource;
+    @Nullable
+    private RecipeIdlingResource recipeIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class Recipes extends AppCompatActivity implements RecipesListAdapter.Lis
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         }
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             try {
                 JSONArray array = new JSONArray(savedInstanceState.getString("list"));
                 toList(array);
@@ -84,7 +83,7 @@ public class Recipes extends AppCompatActivity implements RecipesListAdapter.Lis
 //        startActivity(intent);
     }
 
-    public void  setUp(){
+    public void setUp() {
         setRecipeIdlingResource(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -129,9 +128,9 @@ public class Recipes extends AppCompatActivity implements RecipesListAdapter.Lis
         outState.putString("list", jsonArray.toString());
     }
 
-    public void toList(JSONArray array){
+    public void toList(JSONArray array) {
         try {
-            while (iterator < array.length()){
+            while (iterator < array.length()) {
                 recipeName = array.getJSONObject(iterator).getString("name");
                 recipeImage = array.getJSONObject(iterator).getString("image");
                 recipeIngredients = array.getJSONObject(iterator).getJSONArray("ingredients").toString();
