@@ -14,8 +14,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.quadriyanney.bakingapp.helper.Constants.CANT_GET_RECIPES;
-import static com.quadriyanney.bakingapp.helper.Constants.NO_INTERNET;
+import static com.quadriyanney.bakingapp.util.Constants.CANT_GET_RECIPES;
+import static com.quadriyanney.bakingapp.util.Constants.NO_INTERNET;
 
 public class RecipesListPresenter implements BasePresenter<RecipesListView> {
 

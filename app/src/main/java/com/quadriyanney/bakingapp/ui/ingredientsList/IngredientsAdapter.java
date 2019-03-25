@@ -12,7 +12,6 @@ import com.quadriyanney.bakingapp.data.model.Ingredient;
 
 import java.util.ArrayList;
 
-
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
 
     private ArrayList<Ingredient> ingredients;
@@ -24,18 +23,13 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_ingredient, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_ingredient, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Ingredient ingredient = ingredients.get(position);
-
-        holder.ingredientName.setText(ingredient.getIngredient());
-        String s = "measurement : " + (String.valueOf(ingredient.getQuantity())
-                + " " + ingredient.getMeasure());
-        holder.ingredientMeasurement.setText(s);
+        holder.bind(ingredients.get(position));
     }
 
     @Override
@@ -51,6 +45,13 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             super(itemView);
             ingredientName = itemView.findViewById(R.id.tvIngredient);
             ingredientMeasurement = itemView.findViewById(R.id.tvMeasure);
+        }
+
+        void bind(Ingredient ingredient) {
+            ingredientName.setText(ingredient.getIngredient());
+
+            String measurement = "measurement : " + ingredient.getQuantity() + " " + ingredient.getMeasure();
+            ingredientMeasurement.setText(measurement);
         }
     }
 }

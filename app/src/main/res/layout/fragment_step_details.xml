@@ -28,7 +28,6 @@
                 android:layout_width="@dimen/dimen_100"
                 android:layout_height="@dimen/dimen_100"
                 android:visibility="gone"
-                android:layout_marginRight="@dimen/dimen_8"
                 android:layout_marginEnd="@dimen/dimen_8" />
 
             <TextView

@@ -11,4 +11,8 @@ public interface RecipesListView extends BaseView {
     void showRetryButton(boolean show);
 
     void showRecipeDetails(Recipe recipe);
+
+    void showProgress(boolean show);
+
+    void showMessage(String message);
 }

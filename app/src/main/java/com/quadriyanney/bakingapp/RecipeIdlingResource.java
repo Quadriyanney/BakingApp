@@ -5,10 +5,6 @@ import android.support.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Created by quadriy on 7/15/17.
- */
-
 public class RecipeIdlingResource implements IdlingResource {
 
     @Nullable

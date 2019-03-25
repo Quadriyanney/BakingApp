@@ -5,7 +5,7 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.quadriyanney.bakingapp.activities.Recipes;
+import com.quadriyanney.bakingapp.ui.recipesList.RecipesListActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,17 +18,14 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by quadriy on 7/15/17.
- */
-
 @RunWith(AndroidJUnit4.class)
-public class RecipesIdleTest {
+public class RecipesListIdleTest {
 
     private IdlingResource idlingResource;
 
     @Rule
-    public ActivityTestRule<Recipes> recipesActivityTestRule = new ActivityTestRule<>(Recipes.class);
+    public ActivityTestRule<RecipesListActivity> recipesActivityTestRule =
+            new ActivityTestRule<>(RecipesListActivity.class);
 
     @Before
     public void registerIdlingResource() {
@@ -38,7 +35,7 @@ public class RecipesIdleTest {
 
     @Test
     public void listDisplayed() {
-        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()));
+        onView(withId(R.id.rvRecipes)).check(matches(isDisplayed()));
     }
 
     @After

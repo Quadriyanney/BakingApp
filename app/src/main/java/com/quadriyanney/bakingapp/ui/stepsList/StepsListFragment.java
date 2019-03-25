@@ -14,22 +14,23 @@ import android.view.ViewGroup;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.helper.Constants;
+import com.quadriyanney.bakingapp.util.Constants;
 import com.quadriyanney.bakingapp.ui.stepDetails.StepDetailsActivity;
 
 import java.util.ArrayList;
 
+import static com.quadriyanney.bakingapp.util.Constants.EXTRA_STEPS_LIST;
+
 public class StepsListFragment extends Fragment implements StepsAdapter.StepItemClickListener {
 
     private static final String ARGUMENT_STEPS_LIST = "ARGUMENT_STEPS_LIST";
-    private static final String EXTRA_STEPS_LIST = "EXTRA_STEPS_LIST";
+
+    RecyclerView recyclerView;
 
     ArrayList<Step> steps;
     StepsAdapter stepsAdapter;
-    RecyclerView recyclerView;
 
-    public StepsListFragment() {
-    }
+    public StepsListFragment() { }
 
     public static StepsListFragment newInstance(ArrayList<Step> steps) {
         StepsListFragment stepsListFragment = new StepsListFragment();
@@ -57,7 +58,7 @@ public class StepsListFragment extends Fragment implements StepsAdapter.StepItem
 
         stepsAdapter = new StepsAdapter(steps, this);
 
-        recyclerView = view.findViewById(R.id.stepsRecyclerView);
+        recyclerView = view.findViewById(R.id.rvSteps);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -75,7 +76,7 @@ public class StepsListFragment extends Fragment implements StepsAdapter.StepItem
     @Override
     public void onStepItemClicked(int position) {
         Intent intent = new Intent(getContext(), StepDetailsActivity.class);
-        intent.putParcelableArrayListExtra(Constants.EXTRA_STEPS_LIST, steps);
+        intent.putParcelableArrayListExtra(EXTRA_STEPS_LIST, steps);
         intent.putExtra(Constants.EXTRA_POSITION, position);
         startActivity(intent);
     }

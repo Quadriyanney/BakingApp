@@ -1,5 +1,6 @@
 package com.quadriyanney.bakingapp.ui.stepDetails;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,15 +8,16 @@ import android.widget.ImageButton;
 
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.helper.Constants;
+import com.quadriyanney.bakingapp.util.Constants;
 
 import java.util.List;
 
-public class StepDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class StepDetailsActivity extends AppCompatActivity {
 
     ImageButton btnNext, btnPrevious;
-    List<Step> steps;
+
     int position;
+    List<Step> steps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +25,16 @@ public class StepDetailsActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_step_details);
 
         btnNext = findViewById(R.id.btnNext);
-        btnNext.setOnClickListener(this);
+        btnNext.setOnClickListener(view -> {
+            position++;
+            updateStepDetails();
+        });
 
         btnPrevious = findViewById(R.id.btnPrevious);
-        btnPrevious.setOnClickListener(this);
+        btnPrevious.setOnClickListener(view -> {
+            position--;
+            updateStepDetails();
+        });
 
         steps = getIntent().getParcelableArrayListExtra(Constants.EXTRA_STEPS_LIST);
 
@@ -39,30 +47,16 @@ public class StepDetailsActivity extends AppCompatActivity implements View.OnCli
         updateStepDetails();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnNext:
-                position++;
-                break;
-            case R.id.btnPrevious:
-                position--;
-                break;
+    public void updateStepDetails() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            btnNext.setVisibility(View.INVISIBLE);
+            btnPrevious.setVisibility(View.INVISIBLE);
+        } else {
+            btnPrevious.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
+            btnNext.setVisibility(position == (steps.size() - 1) ? View.INVISIBLE : View.VISIBLE);
         }
 
-        updateStepDetails();
-    }
-
-    private void manageButtonVisibility() {
-        btnPrevious.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
-        btnNext.setVisibility(position == (steps.size() - 1) ? View.INVISIBLE : View.VISIBLE);
-    }
-
-    public void updateStepDetails() {
-        manageButtonVisibility();
-
         StepDetailsFragment fragment = StepDetailsFragment.newInstance(steps.get(position));
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment, StepDetailsFragment.TAG)

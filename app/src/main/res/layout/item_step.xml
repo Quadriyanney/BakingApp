@@ -21,6 +21,5 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         tools:text="Click to see details and "
-        android:layout_marginStart="@dimen/dimen_5"
-        android:layout_marginLeft="@dimen/dimen_5" />
+        android:layout_marginStart="@dimen/dimen_5" />
 </LinearLayout>

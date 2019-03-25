@@ -16,7 +16,6 @@ import com.quadriyanney.bakingapp.util.ImageUtil;
 
 import java.util.List;
 
-
 public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.ViewHolder> {
 
     private List<Recipe> recipes;
@@ -38,13 +37,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RecipesListAdapter.ViewHolder holder, int position) {
-        if (!TextUtils.isEmpty(recipes.get(position).getImage())) {
-            imageUtil.loadImage(recipes.get(position).getImage(), holder.recipeImage);
-            holder.recipeImage.setVisibility(View.VISIBLE);
-        } else {
-            holder.itemLayout.setBackgroundResource(R.color.colorPrimary);
-        }
-        holder.recipeName.setText(recipes.get(position).getName());
+        holder.bind(recipes.get(position));
     }
 
     @Override
@@ -67,7 +60,19 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
             recipeName = itemView.findViewById(R.id.tvRecipeName);
             itemLayout = itemView.findViewById(R.id.layout_recipe_item);
             recipeImage = itemView.findViewById(R.id.ivRecipeImage);
+
             itemView.setOnClickListener(this);
+        }
+
+        void bind(Recipe recipe) {
+            if (!TextUtils.isEmpty(recipe.getImage())) {
+                imageUtil.loadImage(recipe.getImage(), recipeImage);
+                recipeImage.setVisibility(View.VISIBLE);
+            } else {
+                itemLayout.setBackgroundResource(R.color.colorPrimary);
+            }
+
+            recipeName.setText(recipe.getName());
         }
 
         @Override

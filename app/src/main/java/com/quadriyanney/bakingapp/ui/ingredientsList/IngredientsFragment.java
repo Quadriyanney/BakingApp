@@ -16,18 +16,19 @@ import com.quadriyanney.bakingapp.data.model.Ingredient;
 
 import java.util.ArrayList;
 
+import static com.quadriyanney.bakingapp.util.Constants.EXTRA_INGREDIENTS_LIST;
+
 
 public class IngredientsFragment extends Fragment {
 
     private static final String ARGUMENT_INGREDIENTS_LIST = "ARGUMENT_INGREDIENTS_LIST";
-    private static final String EXTRA_INGREDIENTS_LIST = "EXTRA_INGREDIENTS_LIST";
 
     RecyclerView recyclerView;
+
     IngredientsAdapter ingredientsAdapter;
     ArrayList<Ingredient> ingredients;
 
-    public IngredientsFragment() {
-    }
+    public IngredientsFragment() { }
 
     public static IngredientsFragment newInstance(ArrayList<Ingredient> ingredients) {
         IngredientsFragment ingredientsFragment = new IngredientsFragment();
@@ -51,12 +52,12 @@ public class IngredientsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ingredients_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_ingredients, container, false);
 
         ingredientsAdapter = new IngredientsAdapter(ingredients);
 
-        recyclerView = view.findViewById(R.id.ingredientsRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView = view.findViewById(R.id.rvIngredients);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(ingredientsAdapter);

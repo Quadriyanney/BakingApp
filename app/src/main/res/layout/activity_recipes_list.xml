@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context=".ui.recipesList.RecipesListActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_recipes_list"
+        android:id="@+id/toolbarRecipesList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -19,23 +18,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_recipes"
+        android:id="@+id/rvRecipes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/dimen_16"
-        android:layout_marginLeft="@dimen/dimen_16"
-        android:layout_marginTop="@dimen/dimen_16"
-        android:layout_marginEnd="@dimen/dimen_16"
-        android:layout_marginRight="@dimen/dimen_16"
-        android:layout_marginBottom="@dimen/dimen_16"
-        android:visibility="gone"
+        android:layout_margin="@dimen/dimen_16"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_recipes_list" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRecipesList" />
 
     <ProgressBar
-        android:id="@+id/progress_recipes_list"
+        android:id="@+id/pbRecipesList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -43,10 +37,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_recipes_list" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRecipesList" />
 
     <Button
-        android:id="@+id/button_retry"
+        android:id="@+id/btnRetry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry"
@@ -56,5 +50,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_recipes_list" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRecipesList" />
 </android.support.constraint.ConstraintLayout>

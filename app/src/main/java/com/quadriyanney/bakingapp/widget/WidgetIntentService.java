@@ -1,6 +1,5 @@
 package com.quadriyanney.bakingapp.widget;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,19 +13,16 @@ public class WidgetIntentService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new WidgetRemoteViewsFactory(this.getApplicationContext(), intent);
+        return new WidgetRemoteViewsFactory(this.getApplicationContext());
     }
 
     private class WidgetRemoteViewsFactory implements RemoteViewsFactory {
 
         private Context mContext;
-        private int mAppWidgetId;
         private Cursor cursor;
 
-        WidgetRemoteViewsFactory(Context context, Intent intent) {
+        WidgetRemoteViewsFactory(Context context) {
             mContext = context;
-            mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
         private void initCursor() {
@@ -34,8 +30,9 @@ public class WidgetIntentService extends RemoteViewsService {
                 cursor.close();
             }
 
-            Uri uri = CustomContract.CONTENT_URI;
-            cursor = mContext.getContentResolver().query(uri, null, null, null, null);
+            Uri uri = DatabaseContract.CONTENT_URI;
+            cursor = mContext.getContentResolver()
+                    .query(uri, null, null, null, null);
         }
 
         @Override
@@ -60,17 +57,17 @@ public class WidgetIntentService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-
-            RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
+            RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
 
             if (cursor.getCount() != 0) {
                 cursor.moveToPosition(position);
 
-                rv.setTextViewText(R.id.widget_ingredient_name, cursor.getString(3));
+                remoteViews.setTextViewText(R.id.tvIngredientName, cursor.getString(3));
+
                 String measure = cursor.getString(1) + " " + cursor.getString(2);
-                rv.setTextViewText(R.id.widget_ingredient_measure, measure);
+                remoteViews.setTextViewText(R.id.tvIngredientMeasure, measure);
             }
-            return rv;
+            return remoteViews;
         }
 
         @Override

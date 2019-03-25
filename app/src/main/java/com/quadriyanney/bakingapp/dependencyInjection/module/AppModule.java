@@ -1,6 +1,7 @@
 package com.quadriyanney.bakingapp.dependencyInjection.module;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,7 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.quadriyanney.bakingapp.helper.Constants.BASE_URL;
+import static com.quadriyanney.bakingapp.util.Constants.BASE_URL;
 
 @Module
 public class AppModule {
@@ -65,7 +66,6 @@ public class AppModule {
         return new GsonBuilder().setLenient().create();
     }
 
-
     @Provides
     @Singleton
     Retrofit.Builder providesRetrofitBuilder(OkHttpClient okHttpClient, Gson gson) {
@@ -99,6 +99,12 @@ public class AppModule {
     @Singleton
     CompositeDisposable providesCompositeDisposable() {
         return new CompositeDisposable();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences providesSharedPreferences(Context context) {
+        return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
     }
 
 }

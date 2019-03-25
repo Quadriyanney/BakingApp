@@ -8,8 +8,8 @@ import com.quadriyanney.bakingapp.data.model.Recipe;
 import com.quadriyanney.bakingapp.ui.ingredientsList.IngredientsFragment;
 import com.quadriyanney.bakingapp.ui.stepsList.StepsListFragment;
 
-import static com.quadriyanney.bakingapp.helper.Constants.INGREDIENTS;
-import static com.quadriyanney.bakingapp.helper.Constants.STEPS;
+import static com.quadriyanney.bakingapp.util.Constants.INGREDIENTS;
+import static com.quadriyanney.bakingapp.util.Constants.STEPS;
 
 public class RecipeDetailsTabAdapter extends FragmentStatePagerAdapter {
 

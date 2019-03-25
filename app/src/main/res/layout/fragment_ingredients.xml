@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.quadriyanney.bakingapp.ui.ingredientsList.IngredientsFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ingredientsRecyclerView"
         android:layout_margin="@dimen/dimen_10"/>
 </LinearLayout>

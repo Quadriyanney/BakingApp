@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
@@ -31,25 +30,35 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.quadriyanney.bakingapp.App;
 import com.quadriyanney.bakingapp.R;
 import com.quadriyanney.bakingapp.data.model.Step;
-import com.quadriyanney.bakingapp.helper.Constants;
+import com.quadriyanney.bakingapp.util.Constants;
+import com.quadriyanney.bakingapp.util.ImageUtil;
 
-public class StepDetailsFragment extends Fragment {
+import javax.inject.Inject;
+
+public class StepDetailsFragment extends Fragment implements StepDetailsView {
 
     public static final String TAG = StepDetailsFragment.class.getSimpleName();
     private static final String ARGUMENT_STEP = "ARGUMENT_STEP";
+    private static final String PLAYER_POSITION = "PLAYER_POSITION";
 
-    Step step;
-    ImageView thumbnail;
     long currentPosition = 0;
-    TextView description;
-    SimpleExoPlayerView playerView;
-    SimpleExoPlayer player;
     boolean isTwoPane;
 
-    public StepDetailsFragment() {
-    }
+    TextView tvDescription;
+    SimpleExoPlayerView simpleExoPlayerView;
+    SimpleExoPlayer simpleExoPlayer;
+    ImageView ivThumbnail;
+
+    @Inject
+    ImageUtil imageUtil;
+    @Inject
+    StepDetailsPresenter stepDetailsPresenter;
+    Step step;
+
+    public StepDetailsFragment() { }
 
     public static StepDetailsFragment newInstance(Step step) {
         StepDetailsFragment fragment = new StepDetailsFragment();
@@ -63,105 +72,117 @@ public class StepDetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            currentPosition = savedInstanceState.getLong("player_position", 0);
+            currentPosition = savedInstanceState.getLong(PLAYER_POSITION, 0);
             step = savedInstanceState.getParcelable(Constants.EXTRA_STEP);
         } else {
             step = getArguments().getParcelable(ARGUMENT_STEP);
         }
+
+        App.getDependencyComponent().inject(this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_details, container, false);
-        if (getActivity().findViewById(R.id.detail_container) != null) isTwoPane = true;
-        playerView = view.findViewById(R.id.videoPlayer);
-        thumbnail = view.findViewById(R.id.ivThumbnail);
-        description = view.findViewById(R.id.tvDescription);
 
-        if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (!TextUtils.isEmpty(step.getVideoURL())) {
-                playerView.setVisibility(View.VISIBLE);
-                playVideo();
-            }
-            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
-                Glide.with(getContext()).asBitmap().load(step.getThumbnailURL()).into(thumbnail);
-                thumbnail.setVisibility(View.VISIBLE);
-            }
-            if (description != null) description.setText(step.getDescription());
+        isTwoPane = getActivity().findViewById(R.id.detail_container) != null;
 
-        } else {
-            if (!TextUtils.isEmpty(step.getVideoURL())) {
-                playerView.setVisibility(View.VISIBLE);
-                playVideo();
-            } else {
-                if (!TextUtils.isEmpty(step.getThumbnailURL())) {
-                    Glide.with(getActivity()).asBitmap().load(step.getThumbnailURL()).into(thumbnail);
-                    thumbnail.setVisibility(View.VISIBLE);
-                }
-                if (description != null) description.setText(step.getDescription());
-            }
+        simpleExoPlayerView = view.findViewById(R.id.videoPlayer);
+        ivThumbnail = view.findViewById(R.id.ivThumbnail);
+        tvDescription = view.findViewById(R.id.tvDescription);
 
-        }
         return view;
     }
 
-    private void playVideo() {
-        if (player == null) {
-            Handler handler = new Handler();
-            BandwidthMeter meter = new DefaultBandwidthMeter();
-            TrackSelection.Factory selection = new AdaptiveTrackSelection.Factory(meter);
-            TrackSelector selector = new DefaultTrackSelector(selection);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        stepDetailsPresenter.attachView(this);
+    }
 
-            player = ExoPlayerFactory.newSimpleInstance(getActivity(), selector);
-            playerView.setPlayer(player);
+    @Override
+    public void setUpView() {
+        if (isTwoPane || getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (!TextUtils.isEmpty(step.getVideoURL())) {
+                simpleExoPlayerView.setVisibility(View.VISIBLE);
+                stepDetailsPresenter.playVideo();
+            }
 
-            DefaultBandwidthMeter widthMeter = new DefaultBandwidthMeter();
-            DataSource.Factory dataSource = new DefaultDataSourceFactory(getActivity(),
-                    Util.getUserAgent(getActivity(), "BakingApp"), widthMeter);
+            if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                imageUtil.loadImageAsBitmap(step.getThumbnailURL(), ivThumbnail);
+                ivThumbnail.setVisibility(View.VISIBLE);
+            }
 
-            ExtractorsFactory factory = new DefaultExtractorsFactory();
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(step.getVideoURL()), dataSource,
-                    factory, handler, null);
+            if (tvDescription != null) {
+                tvDescription.setText(step.getDescription());
+            }
+        } else {
+            if (!TextUtils.isEmpty(step.getVideoURL())) {
+                simpleExoPlayerView.setVisibility(View.VISIBLE);
+                stepDetailsPresenter.playVideo();
+            } else {
+                if (!TextUtils.isEmpty(step.getThumbnailURL())) {
+                    imageUtil.loadImageAsBitmap(step.getThumbnailURL(), ivThumbnail);
+                    ivThumbnail.setVisibility(View.VISIBLE);
+                }
 
-            player.prepare(mediaSource);
+                if (tvDescription != null) {
+                    tvDescription.setText(step.getDescription());
+                }
+            }
+        }
+    }
 
-            if (currentPosition != 0) player.seekTo(currentPosition);
-            player.setPlayWhenReady(true);
+    @Override
+    public void playStepVideo() {
+        Handler handler = new Handler();
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory trackSelection = new AdaptiveTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(trackSelection);
+
+        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector);
+        simpleExoPlayerView.setPlayer(simpleExoPlayer);
+
+        DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
+        DataSource.Factory dataSource = new DefaultDataSourceFactory(getActivity(),
+                Util.getUserAgent(getActivity(), getString(R.string.app_name)), defaultBandwidthMeter);
+
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        MediaSource mediaSource = new ExtractorMediaSource(
+                Uri.parse(step.getVideoURL()), dataSource, extractorsFactory, handler, null);
+
+        simpleExoPlayer.prepare(mediaSource);
+
+        if (currentPosition != 0) {
+            simpleExoPlayer.seekTo(currentPosition);
+        }
+        simpleExoPlayer.setPlayWhenReady(true);
+    }
+
+    @Override
+    public void releasePlayer() {
+        if (simpleExoPlayer != null) {
+            simpleExoPlayer.stop();
+            simpleExoPlayer.release();
+            simpleExoPlayer = null;
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (player != null) {
-            outState.putLong("player_position", player.getCurrentPosition());
+        if (simpleExoPlayer != null) {
+            outState.putLong(PLAYER_POSITION, simpleExoPlayer.getCurrentPosition());
         }
         outState.putParcelable(Constants.EXTRA_STEP, step);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        playVideo();
+    public void onDestroy() {
+        super.onDestroy();
+        stepDetailsPresenter.releasePlayer();
+        stepDetailsPresenter.detachView();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        releasePlayer();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        releasePlayer();
-    }
-
-    public void releasePlayer() {
-        if (player != null) {
-            player.stop();
-            player.release();
-            player = null;
-        }
-    }
 }

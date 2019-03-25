@@ -13,7 +13,6 @@ import com.quadriyanney.bakingapp.data.model.Step;
 
 import java.util.ArrayList;
 
-
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
 
     private ArrayList<Step> steps;
@@ -34,25 +33,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull StepsAdapter.ViewHolder holder, int position) {
-        holder.stepName.setText(steps.get(position).getShortDescription());
-        String video = steps.get(position).getVideoURL();
-        String image = steps.get(position).getThumbnailURL();
-
-        String s;
-        String fixed = "Click to view details";
-
-        if (TextUtils.isEmpty(video) && TextUtils.isEmpty(image)) {
-            holder.stepDetails.setText(fixed);
-        } else if (!TextUtils.isEmpty(video) && TextUtils.isEmpty(image)) {
-            s = fixed + " and videos";
-            holder.stepDetails.setText(s);
-        } else if (TextUtils.isEmpty(video) && !TextUtils.isEmpty(image)) {
-            s = fixed + " and images";
-            holder.stepDetails.setText(s);
-        } else {
-            s = fixed + ", images and videos";
-            holder.stepDetails.setText(s);
-        }
+        holder.bind(steps.get(position));
     }
 
     @Override
@@ -60,18 +41,15 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         return steps.size();
     }
 
-    public interface StepItemClickListener {
-        void onStepItemClicked(int position);
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView stepName, stepDetails;
+        TextView tvStepName, tvStepDetails;
 
         ViewHolder(View itemView) {
             super(itemView);
-            stepName = itemView.findViewById(R.id.tvStepDescription);
-            stepDetails = itemView.findViewById(R.id.tvClickToViewDetails);
+            tvStepName = itemView.findViewById(R.id.tvStepDescription);
+            tvStepDetails = itemView.findViewById(R.id.tvClickToViewDetails);
+
             itemView.setOnClickListener(this);
         }
 
@@ -79,5 +57,32 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
         public void onClick(View view) {
             listener.onStepItemClicked(getAdapterPosition());
         }
+
+        void bind(Step step) {
+            tvStepName.setText(step.getShortDescription());
+
+            String details;
+            String detailsPrefix = "Click to view details";
+            String videoURL = step.getVideoURL();
+            String thumbnailURL = step.getThumbnailURL();
+
+            if (TextUtils.isEmpty(videoURL) && TextUtils.isEmpty(thumbnailURL)) {
+                tvStepDetails.setText(detailsPrefix);
+            } else {
+                if (!TextUtils.isEmpty(videoURL) && TextUtils.isEmpty(thumbnailURL)) {
+                    details = detailsPrefix + " and videos";
+                } else if (TextUtils.isEmpty(videoURL) && !TextUtils.isEmpty(thumbnailURL)) {
+                    details = detailsPrefix + " and images";
+                } else {
+                    details = detailsPrefix + ", images and videos";
+                }
+                tvStepDetails.setText(details);
+            }
+        }
     }
+
+    public interface StepItemClickListener {
+        void onStepItemClicked(int position);
+    }
+
 }

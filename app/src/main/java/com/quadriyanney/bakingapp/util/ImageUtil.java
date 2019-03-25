@@ -16,4 +16,8 @@ public class ImageUtil {
     public void loadImage(String imageUrl, ImageView imageView) {
         Glide.with(context).load(imageUrl).into(imageView);
     }
+
+    public void loadImageAsBitmap(String imageUrl, ImageView imageView) {
+        Glide.with(context).asBitmap().load(imageUrl).into(imageView);
+    }
 }
